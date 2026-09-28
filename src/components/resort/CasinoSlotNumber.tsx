@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react";
-import { playJackpotChime, playReelLock } from "@/lib/casinoAudio";
 
 interface CasinoSlotNumberProps {
   value: string | number;
@@ -10,7 +9,6 @@ interface CasinoSlotNumberProps {
   mode?: "inline" | "slot" | "jackpot";
   interactive?: boolean;
   spinTrigger?: any;
-  enableAudio?: boolean;
   prefix?: string;
   suffix?: string;
 }
@@ -23,7 +21,6 @@ interface SingleDigitReelProps {
   baseDelay: number;
   stagger: number;
   baseDuration: number;
-  enableAudio: boolean;
   isLastDigit: boolean;
 }
 
@@ -35,7 +32,6 @@ function SingleDigitReel({
   baseDelay,
   stagger,
   baseDuration,
-  enableAudio,
   isLastDigit,
 }: SingleDigitReelProps) {
   const [hasStarted, setHasStarted] = useState(false);
@@ -67,19 +63,13 @@ function SingleDigitReel({
 
     const lockTimer = setTimeout(() => {
       setIsLocked(true);
-      if (enableAudio) {
-        playReelLock(reelIndex);
-        if (isLastDigit) {
-          playJackpotChime();
-        }
-      }
     }, reelDelay + reelDuration);
 
     return () => {
       cancelAnimationFrame(frame);
       clearTimeout(lockTimer);
     };
-  }, [spinKey, digit, reelDelay, reelDuration, reelIndex, isLastDigit, enableAudio]);
+  }, [spinKey, digit, reelDelay, reelDuration, reelIndex, isLastDigit]);
 
   if (isLocked) {
     return (
@@ -173,7 +163,6 @@ export function CasinoSlotNumber({
   stagger = 90,
   interactive = false,
   spinTrigger,
-  enableAudio = false,
   prefix,
   suffix,
 }: CasinoSlotNumberProps) {
@@ -242,7 +231,6 @@ export function CasinoSlotNumber({
               baseDelay={delay}
               stagger={stagger}
               baseDuration={duration}
-              enableAudio={enableAudio}
               isLastDigit={token.digitIndex === parsedTokens.totalDigits - 1}
             />
           );

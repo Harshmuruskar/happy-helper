@@ -435,7 +435,7 @@ export function ResortApp() {
               </span>
             </div>
 
-            {/* Casino Reels Roll & Sound Button */}
+            {/* Casino Reels Roll Button */}
             <CasinoRollButton />
 
             {/* Day ↔ Night Atmosphere Switch (700-1200ms transition) */}

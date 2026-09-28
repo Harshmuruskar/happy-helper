@@ -1,33 +1,22 @@
 import { createContext, useContext, useState } from "react";
-import { Dices, Volume2, VolumeX, Sparkles } from "lucide-react";
+import { Dices } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { isCasinoSoundEnabled, toggleCasinoSound } from "@/lib/casinoAudio";
 
 interface CasinoContextType {
   spinKey: number;
   triggerSpinAll: () => void;
-  audioEnabled: boolean;
-  toggleAudio: () => void;
 }
 
 const CasinoContext = createContext<CasinoContextType>({
   spinKey: 0,
   triggerSpinAll: () => {},
-  audioEnabled: true,
-  toggleAudio: () => {},
 });
 
 export function CasinoProvider({ children }: { children: React.ReactNode }) {
   const [spinKey, setSpinKey] = useState(1);
-  const [audioEnabled, setAudioEnabled] = useState(true);
 
   const triggerSpinAll = () => {
     setSpinKey((k) => k + 1);
-  };
-
-  const handleToggleAudio = () => {
-    const next = toggleCasinoSound();
-    setAudioEnabled(next);
   };
 
   return (
@@ -35,8 +24,6 @@ export function CasinoProvider({ children }: { children: React.ReactNode }) {
       value={{
         spinKey,
         triggerSpinAll,
-        audioEnabled,
-        toggleAudio: handleToggleAudio,
       }}
     >
       {children}
@@ -49,7 +36,7 @@ export function useCasino() {
 }
 
 export function CasinoRollButton({ className = "" }: { className?: string }) {
-  const { spinKey, triggerSpinAll, audioEnabled, toggleAudio } = useCasino();
+  const { triggerSpinAll } = useCasino();
   const [spinning, setSpinning] = useState(false);
 
   const handleRoll = () => {
@@ -73,20 +60,6 @@ export function CasinoRollButton({ className = "" }: { className?: string }) {
           }`}
         />
         <span>Spin Reels</span>
-      </Button>
-
-      <Button
-        variant="ghost"
-        size="icon"
-        onClick={toggleAudio}
-        title={audioEnabled ? "Casino audio clicks enabled (click to mute)" : "Casino audio muted (click to enable)"}
-        className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-accent"
-      >
-        {audioEnabled ? (
-          <Volume2 className="size-3.5 text-[var(--champagne)]" />
-        ) : (
-          <VolumeX className="size-3.5 text-muted-foreground" />
-        )}
       </Button>
     </div>
   );
