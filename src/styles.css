@@ -100,6 +100,7 @@
   --sidebar-border: rgba(231, 222, 208, 0.15);
   --sidebar-active-bg: rgba(201, 164, 92, 0.16);
   --sidebar-active-text: #C9A45C;
+  --sidebar-image-overlay: linear-gradient(180deg, rgba(23, 59, 77, 0.76) 0%, rgba(23, 59, 77, 0.62) 45%, rgba(16, 43, 54, 0.82) 100%);
 
   /* Module Accents */
   --accent-rooms: #718B7A;
@@ -157,6 +158,7 @@
   --sidebar-border: #314553;
   --sidebar-active-bg: rgba(212, 175, 104, 0.15);
   --sidebar-active-text: #D4AF68;
+  --sidebar-image-overlay: linear-gradient(180deg, rgba(16, 27, 41, 0.34) 0%, rgba(23, 42, 58, 0.42) 48%, rgba(16, 27, 41, 0.58) 100%);
 
   /* Module Accents Night */
   --accent-rooms: #597468;
@@ -320,8 +322,57 @@
 
 /* Sidebar */
 .resort-sidebar {
+  isolation: isolate;
+  overflow: hidden;
   background: var(--sidebar-bg);
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
+}
+
+.resort-sidebar > :not(.sidebar-atmosphere):not(.sidebar-atmosphere-overlay) {
+  position: relative;
+  z-index: 2;
+}
+
+.sidebar-atmosphere,
+.sidebar-atmosphere-overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.sidebar-atmosphere {
+  z-index: 0;
+  object-fit: cover;
+  object-position: center;
+  transition: opacity 950ms cubic-bezier(0.4, 0, 0.2, 1), transform 1200ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.sidebar-atmosphere-day {
+  opacity: 1;
+}
+
+.sidebar-atmosphere-night {
+  opacity: 0;
+}
+
+.dark .sidebar-atmosphere-day {
+  opacity: 0;
+}
+
+.dark .sidebar-atmosphere-night {
+  opacity: 1;
+}
+
+.sidebar-atmosphere-overlay {
+  z-index: 1;
+  background: var(--sidebar-image-overlay);
+  transition: background 950ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.resort-sidebar:hover .sidebar-atmosphere {
+  transform: scale(1.015);
 }
 
 /* Buttons with one-time shine on hover */

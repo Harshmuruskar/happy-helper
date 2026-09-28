@@ -47,7 +47,7 @@ export function NewBookingModal({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!guestName.trim()) return;
+    if (!guestName.trim() || !selectedRoom) return;
 
     const newBk: Booking = {
       id: `BK-${Math.floor(1000 + Math.random() * 9000)}`,
