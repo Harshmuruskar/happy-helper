@@ -70,7 +70,7 @@ export function AmenitiesView({
     if (currentAccount.role === "Guest") {
       setFormGuestName(currentAccount.name);
       setFormRoomCode(currentAccount.assignedRoomCode || "C-102");
-    } else if (bookings.length > 0) {
+    } else if (bookings.length > 0 && bookings[0]) {
       setFormGuestName(bookings[0].guestName);
       setFormRoomCode(bookings[0].roomCode);
     }
@@ -140,7 +140,7 @@ export function AmenitiesView({
         <div className="flex items-center gap-2.5">
           <Button
             size="sm"
-            onClick={() => handleOpenBookModal(services[0])}
+            onClick={() => services[0] && handleOpenBookModal(services[0])}
             className="h-8 gap-1.5 bg-primary px-3 text-xs text-primary-foreground hover:bg-primary/90"
           >
             <Plus className="size-3.5" />

@@ -67,6 +67,7 @@ export function GuestPortalView({
   const myServiceBookings = serviceBookings.filter((sb) => sb.guestName === currentAccount.name || sb.roomCode === "C-102");
   const myTickets = supportTickets.filter((t) => t.guestName === currentAccount.name || t.roomCode === "C-102");
   const myReviews = reviews.filter((r) => r.guestName === currentAccount.name);
+  const latestReview = myReviews[0];
 
   // Folio calculation
   const totalCharges = myFolio ? myFolio.charges.reduce((a, c) => a + c.amount, 0) : 0;
@@ -313,15 +314,15 @@ export function GuestPortalView({
             </div>
 
             <div className="mt-4">
-              {myReviews.length > 0 ? (
+              {latestReview ? (
                 <div className="rounded-lg border border-[var(--champagne)]/40 bg-[var(--gold-soft)]/20 p-4 text-xs">
                   <div className="flex items-center gap-1 text-[var(--champagne)]">
-                    {Array.from({ length: myReviews[0].overallRating }).map((_, i) => (
+                    {Array.from({ length: latestReview.overallRating }).map((_, i) => (
                       <Star key={i} className="size-3.5 fill-[var(--champagne)] text-[var(--champagne)]" />
                     ))}
                   </div>
-                  <p className="mt-2 font-bold text-foreground">"{myReviews[0].title}"</p>
-                  <p className="mt-1 text-muted-foreground text-[11px]">{myReviews[0].comment}</p>
+                  <p className="mt-2 font-bold text-foreground">"{latestReview.title}"</p>
+                  <p className="mt-1 text-muted-foreground text-[11px]">{latestReview.comment}</p>
                   <Button
                     size="sm"
                     variant="outline"

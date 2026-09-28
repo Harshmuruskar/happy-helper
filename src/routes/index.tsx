@@ -123,7 +123,7 @@ export function ResortApp() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   // Authentication & Persona state (default General Manager)
-  const [currentAccount, setCurrentAccount] = useState<Account>(initialAccounts[0]);
+  const [currentAccount, setCurrentAccount] = useState<Account>(initialAccounts[0]!);
   const [personaModalOpen, setPersonaModalOpen] = useState(false);
 
   // Core RRMS State
@@ -313,7 +313,7 @@ export function ResortApp() {
                 ...f.charges,
                 {
                   id: `CHG-${Date.now().toString().slice(-4)}`,
-                  date: new Date().toISOString().split("T")[0],
+                  date: new Date().toISOString().slice(0, 10),
                   description: `${target.serviceName} (${target.category})`,
                   category: "Service",
                   amount: target.amount,
@@ -359,7 +359,7 @@ export function ResortApp() {
     setSupportTickets((prev) =>
       prev.map((t) =>
         t.id === ticketId
-          ? { ...t, status, response: response || t.response }
+          ? { ...t, status, response: response ?? t.response }
           : t
       )
     );
@@ -372,7 +372,7 @@ export function ResortApp() {
     setReviews((prev) => [
       {
         id: newId,
-        date: new Date().toISOString().split("T")[0],
+        date: new Date().toISOString().slice(0, 10),
         ...review,
       },
       ...prev,
@@ -484,7 +484,8 @@ export function ResortApp() {
   // -------------------------------------------------------------
   // Role-Based Navigation Filtering
   // -------------------------------------------------------------
-  const currentPermission = rolePermissions.find((p) => p.role === currentAccount.role) || rolePermissions[0];
+  const currentPermission =
+    rolePermissions.find((p) => p.role === currentAccount.role) ?? rolePermissions[0]!;
   const allowedTabs = currentPermission.allowedTabs;
 
   const allNavItems = [

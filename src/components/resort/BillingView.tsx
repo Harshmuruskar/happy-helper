@@ -73,7 +73,7 @@ export function BillingView({
     if (!currentFolio) return;
 
     onRecordPayment(currentFolio.reservationId, {
-      date: new Date().toISOString().split("T")[0],
+      date: new Date().toISOString().slice(0, 10),
       amount: Number(payAmount),
       method: payMethod,
       type: "Payment",

@@ -101,7 +101,7 @@ export function OperationsView({
       itemName: lfItemName,
       category: lfCategory,
       foundLocation: lfLocation,
-      foundDate: new Date().toISOString().split("T")[0],
+      foundDate: new Date().toISOString().slice(0, 10),
       foundBy: lfFinder,
       storageLocation: lfVault,
       status: "Stored in Vault",

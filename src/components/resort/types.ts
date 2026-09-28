@@ -54,7 +54,14 @@ export interface Booking {
   specialRequests?: string;
 }
 
-export type RoomStatus = "Ready" | "Occupied" | "Dirty" | "Inspection" | "Maintenance" | "Out of Service";
+export type RoomStatus =
+  | "Ready"
+  | "Occupied"
+  | "Dirty"
+  | "Inspection"
+  | "Maintenance"
+  | "Out of Service"
+  | "Housekeeping";
 
 export interface Room {
   id: string;
@@ -68,8 +75,8 @@ export interface Room {
   capacity: number;
   sqm: number;
   features: string[];
-  currentGuest?: string;
-  assignedStaff?: string;
+  currentGuest?: string | undefined;
+  assignedStaff?: string | undefined;
 }
 
 export interface Guest {
@@ -82,9 +89,9 @@ export interface Guest {
   loyaltyPoints: number;
   totalStays: number;
   totalSpent: string;
-  currentRoom?: string;
+  currentRoom?: string | undefined;
   preferences: string;
-  documentId?: string;
+  documentId?: string | undefined;
   status: "In Residence" | "Arriving Today" | "Departed" | "Upcoming";
 }
 
@@ -103,7 +110,7 @@ export interface RestaurantOrder {
 
 export type TaskKind = "Cleaning" | "Maintenance" | "Property" | "Turn-down" | "Inspection";
 export type TaskPriority = "VIP Arrival" | "High" | "Standard" | "Urgent" | "Turn-down";
-export type TaskStatus = "Pending" | "In Progress" | "Inspection" | "Completed";
+export type TaskStatus = "Pending" | "In Progress" | "Inspection" | "Inspected" | "Completed";
 
 export interface HousekeepingTask {
   id: string;
@@ -114,7 +121,7 @@ export interface HousekeepingTask {
   assignedTo: string;
   dueTime: string;
   status: TaskStatus;
-  kind?: TaskKind;
+  kind?: TaskKind | undefined;
 }
 
 export interface ResortNotification {
@@ -124,7 +131,7 @@ export interface ResortNotification {
   time: string;
   department: "Front Desk" | "Concierge" | "Housekeeping" | "Kitchen" | "General" | "Billing";
   unread: boolean;
-  priority?: "urgent" | "info";
+  priority?: "urgent" | "info" | undefined;
 }
 
 // -------------------------------------------------------------
@@ -155,7 +162,7 @@ export interface ServiceBooking {
   scheduledDate: string;
   scheduledTime: string;
   status: ServiceBookingStatus;
-  notes?: string;
+  notes?: string | undefined;
 }
 
 export interface FolioCharge {
@@ -212,8 +219,8 @@ export interface SupportTicket {
   priority: "Standard" | "High" | "Urgent";
   status: SupportTicketStatus;
   createdAt: string;
-  assignedStaff?: string;
-  response?: string;
+  assignedStaff?: string | undefined;
+  response?: string | undefined;
 }
 
 export interface GuestReview {
@@ -242,9 +249,9 @@ export interface LostAndFoundItem {
   foundBy: string;
   storageLocation: string;
   status: LostAndFoundStatus;
-  claimedByGuest?: string;
-  contactNumber?: string;
-  notes?: string;
+  claimedByGuest?: string | undefined;
+  contactNumber?: string | undefined;
+  notes?: string | undefined;
 }
 
 export interface ResortPolicy {
