@@ -119,7 +119,6 @@ export const initialRooms: Room[] = [
     capacity: 3,
     sqm: 165,
     features: ["Private Infinity Pool", "Butler Pantry", "Outdoor Rain Shower", "Wine Reserve"],
-    currentGuest: undefined,
     assignedStaff: "Deepak Sharma",
   },
   {
@@ -179,7 +178,6 @@ export const initialRooms: Room[] = [
     capacity: 2,
     sqm: 145,
     features: ["Glass-Bottom Plunge Pool", "Fire Pit Terrace", "Telescope Deck", "Organic Bar"],
-    currentGuest: undefined,
     assignedStaff: "Amitava Sen",
   },
   {
@@ -194,7 +192,6 @@ export const initialRooms: Room[] = [
     capacity: 2,
     sqm: 95,
     features: ["Teak Balcony Daybed", "Marble En-suite", "Bose Sound System", "Pillow Menu"],
-    currentGuest: undefined,
     assignedStaff: "Sunita Rao",
   },
   {
@@ -209,7 +206,6 @@ export const initialRooms: Room[] = [
     capacity: 4,
     sqm: 175,
     features: ["Private Boardwalk to Beach", "Plunge Pool", "Outdoor Teppanyaki", "Kayak Bay"],
-    currentGuest: undefined,
     assignedStaff: "Ramesh Pillai",
   },
   {
@@ -224,7 +220,6 @@ export const initialRooms: Room[] = [
     capacity: 3,
     sqm: 130,
     features: ["Lotus Pavilion", "Outdoor Stone Tub", "Aromatherapy Shower", "Butler Service"],
-    currentGuest: undefined,
     assignedStaff: "Karan Joshi",
   },
 ];

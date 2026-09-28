@@ -29,9 +29,10 @@ export function RestaurantView({ orders, onAdvanceOrder }: RestaurantViewProps) 
     "Azure Lounge (Cocktails & Tapas)",
     "The Sommelier Cellar",
   ];
+  const selectedVenueName = selectedVenue.split(" (")[0] ?? selectedVenue;
 
   const filteredOrders = orders.filter(
-    (o) => selectedVenue === "All" || o.venue.includes(selectedVenue.split(" ")[0])
+    (o) => selectedVenue === "All" || o.venue.includes(selectedVenueName)
   );
 
   return (
