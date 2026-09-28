@@ -9,3 +9,4 @@
 - [ ] Apply the supplied Golden Sunrise and Luxury Sunset palette across the complete app
 - [ ] Remove blur and glass effects in favor of crisp five-star resort surfaces
 - [ ] Verify the refreshed desktop and mobile experience in both themes
+- [x] Add distinct, readable sunrise and softly lit sunset sidebar backgrounds
