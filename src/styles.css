@@ -228,6 +228,66 @@
   50% { opacity: 1; }
 }
 
+/* Seamless Casino Slot Reel Number Animation — Pure Transparent & Inherited Typography */
+.casino-reel-wheel {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: -0.12em;
+  height: 1.2em;
+  line-height: 1.2em;
+  user-select: none;
+  font-family: inherit;
+  font-weight: inherit;
+  color: inherit;
+  font-variant-numeric: tabular-nums;
+  -moz-font-feature-settings: "tnum";
+  -webkit-font-feature-settings: "tnum";
+  font-feature-settings: "tnum";
+  background: transparent !important;
+}
+
+.casino-reel-strip {
+  display: flex;
+  flex-direction: column;
+  will-change: transform;
+  font-family: inherit;
+  font-weight: inherit;
+  color: inherit;
+  background: transparent !important;
+}
+
+.casino-reel-digit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  height: 1.2em;
+  line-height: 1.2em;
+  flex: 0 0 1.2em;
+  flex-shrink: 0;
+  font-family: inherit;
+  font-weight: inherit;
+  color: inherit;
+  background: transparent !important;
+}
+
+.casino-reel-settled {
+  display: inline-block;
+  vertical-align: -0.12em;
+  height: 1.2em;
+  line-height: 1.2em;
+  user-select: none;
+  font-family: inherit;
+  font-weight: inherit;
+  color: inherit;
+  font-variant-numeric: tabular-nums;
+  -moz-font-feature-settings: "tnum";
+  -webkit-font-feature-settings: "tnum";
+  font-feature-settings: "tnum";
+  background: transparent !important;
+}
+
 /* Luxury Card & Surfaces - Crisp, Solid, NO Glassmorphism */
 .resort-shell,
 .resort-card,

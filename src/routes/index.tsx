@@ -57,6 +57,8 @@ import { SettingsView } from "@/components/resort/SettingsView";
 import { NewBookingModal } from "@/components/resort/NewBookingModal";
 import { BookingDetailModal } from "@/components/resort/BookingDetailModal";
 import { NotificationsDrawer } from "@/components/resort/NotificationsDrawer";
+import { CasinoProvider, CasinoRollButton } from "@/components/resort/CasinoControl";
+import { CasinoSlotNumber } from "@/components/resort/CasinoSlotNumber";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -104,12 +106,7 @@ export function ResortApp() {
   // Initialize theme from localStorage or system preference
   useEffect(() => {
     const savedTheme = window.localStorage.getItem("palm-grove-theme");
-    const initialTheme =
-      savedTheme === "day" || savedTheme === "night"
-        ? savedTheme
-        : window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "night"
-        : "day";
+    const initialTheme = savedTheme === "night" ? "night" : "day";
     setTheme(initialTheme);
     document.documentElement.classList.toggle("dark", initialTheme === "night");
     setThemeReady(true);
@@ -256,10 +253,11 @@ export function ResortApp() {
   ];
 
   return (
-    <div className="resort-shell relative min-h-screen bg-background text-foreground antialiased selection:bg-[var(--champagne)] selection:text-black">
-      {/* Subtle architectural watermark & ambient sunset/sunrise horizon glow */}
-      <div className="resort-horizon-glow" />
-      <div className="resort-pattern" />
+    <CasinoProvider>
+      <div className="resort-shell relative min-h-screen bg-background text-foreground antialiased selection:bg-[var(--champagne)] selection:text-black">
+        {/* Subtle architectural watermark & ambient sunset/sunrise horizon glow */}
+        <div className="resort-horizon-glow" />
+        <div className="resort-pattern" />
 
       {/* Mobile drawer overlay */}
       {menuOpen && (
@@ -347,7 +345,7 @@ export function ResortApp() {
                             : "bg-white/10 text-[var(--sidebar-muted)]"
                         }`}
                       >
-                        {item.badge}
+                        <CasinoSlotNumber value={item.badge} interactive={false} />
                       </span>
                     )}
                   </button>
@@ -412,8 +410,13 @@ export function ResortApp() {
             {/* Marine & Weather Pill */}
             <div className="hidden items-center gap-2 rounded-full border border-border bg-accent/40 px-3 py-1.5 text-xs sm:flex">
               <CloudFog className="size-4 text-[var(--sky)]" />
-              <span className="font-medium text-foreground">24°C · Ocean Breeze</span>
+              <span className="font-medium text-foreground">
+                <CasinoSlotNumber value="24" className="font-semibold text-[var(--champagne)]" />°C · Ocean Breeze
+              </span>
             </div>
+
+            {/* Casino Reels Roll & Sound Button */}
+            <CasinoRollButton />
 
             {/* Day ↔ Night Atmosphere Switch (700-1200ms transition) */}
             <Button
@@ -449,7 +452,9 @@ export function ResortApp() {
             >
               <Bell className="size-4" />
               {unreadAlertsCount > 0 && (
-                <span className="absolute right-2 top-2 size-2 rounded-full bg-[var(--sunset)] shadow-[0_0_6px_var(--sunset)]" />
+                <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--sunset)] px-1 text-[9px] font-bold text-white shadow-[0_0_6px_var(--sunset)]">
+                  <CasinoSlotNumber value={unreadAlertsCount} interactive={false} />
+                </span>
               )}
             </Button>
 
@@ -566,5 +571,6 @@ export function ResortApp() {
         onMarkAllRead={handleMarkAllNotificationsRead}
       />
     </div>
+  </CasinoProvider>
   );
 }

@@ -12,6 +12,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { CasinoSlotNumber } from "./CasinoSlotNumber";
+import { useCasino } from "./CasinoControl";
 
 const transactions = [
   {
@@ -68,6 +70,7 @@ const transactions = [
 
 export function FinanceView() {
   const [downloadSuccess, setDownloadSuccess] = useState(false);
+  const { spinKey } = useCasino();
 
   const handleExport = () => {
     setDownloadSuccess(true);
@@ -112,13 +115,17 @@ export function FinanceView() {
               <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                 Season Revenue (Q3)
               </p>
-              <p className="mt-2 font-display text-3xl font-semibold text-foreground">₹1.84 Cr</p>
+              <div className="mt-2 font-display text-3xl font-semibold text-foreground">
+                <CasinoSlotNumber value="₹1.84 Cr" spinTrigger={spinKey} mode="jackpot" />
+              </div>
             </div>
             <div className="flex size-10 items-center justify-center rounded-lg border border-[var(--champagne)]/30 bg-[var(--champagne)]/10 text-[var(--champagne)]">
               <Gem className="size-5" />
             </div>
           </div>
-          <p className="mt-3 text-xs text-[var(--sage)]">+18.4% above budget forecast</p>
+          <p className="mt-3 text-xs text-[var(--sage)]">
+            <CasinoSlotNumber value="+18.4%" spinTrigger={spinKey} /> above budget forecast
+          </p>
         </article>
 
         <article className="resort-card p-5">
@@ -127,13 +134,17 @@ export function FinanceView() {
               <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                 Average Daily Rate (ADR)
               </p>
-              <p className="mt-2 font-display text-3xl font-semibold text-foreground">₹28,500</p>
+              <div className="mt-2 font-display text-3xl font-semibold text-foreground">
+                <CasinoSlotNumber value="₹28,500" spinTrigger={spinKey} mode="jackpot" />
+              </div>
             </div>
             <div className="flex size-10 items-center justify-center rounded-lg border border-[var(--sage)]/30 bg-[var(--sage)]/10 text-[var(--sage)]">
               <TrendingUp className="size-5" />
             </div>
           </div>
-          <p className="mt-3 text-xs text-[var(--sage)]">+₹3,200 higher vs. last year</p>
+          <p className="mt-3 text-xs text-[var(--sage)]">
+            <CasinoSlotNumber value="+₹3,200" spinTrigger={spinKey} /> higher vs. last year
+          </p>
         </article>
 
         <article className="resort-card p-5">
@@ -142,13 +153,17 @@ export function FinanceView() {
               <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                 RevPAR (Yield Index)
               </p>
-              <p className="mt-2 font-display text-3xl font-semibold text-foreground">₹23,940</p>
+              <div className="mt-2 font-display text-3xl font-semibold text-foreground">
+                <CasinoSlotNumber value="₹23,940" spinTrigger={spinKey} mode="jackpot" />
+              </div>
             </div>
             <div className="flex size-10 items-center justify-center rounded-lg border border-[var(--champagne)]/30 bg-[var(--champagne)]/10 text-[var(--champagne)]">
               <Wallet className="size-5" />
             </div>
           </div>
-          <p className="mt-3 text-xs text-[var(--sage)]">84% Occupancy factor applied</p>
+          <p className="mt-3 text-xs text-[var(--sage)]">
+            <CasinoSlotNumber value="84%" spinTrigger={spinKey} /> Occupancy factor applied
+          </p>
         </article>
 
         <article className="resort-card p-5">
@@ -157,7 +172,9 @@ export function FinanceView() {
               <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                 Operating Margin
               </p>
-              <p className="mt-2 font-display text-3xl font-semibold text-foreground">34.2%</p>
+              <div className="mt-2 font-display text-3xl font-semibold text-foreground">
+                <CasinoSlotNumber value="34.2%" spinTrigger={spinKey} mode="jackpot" />
+              </div>
             </div>
             <div className="flex size-10 items-center justify-center rounded-lg border border-[var(--sage)]/30 bg-[var(--sage)]/10 text-[var(--sage)]">
               <ShieldCheck className="size-5" />
@@ -180,7 +197,10 @@ export function FinanceView() {
           <div>
             <div className="flex items-center justify-between text-xs">
               <span className="font-medium text-foreground">Suites, Penthouses & Villas</span>
-              <span className="font-semibold text-[var(--champagne)]">62% (₹1,14,08,000)</span>
+              <span className="font-semibold text-[var(--champagne)]">
+                <CasinoSlotNumber value="62%" spinTrigger={spinKey} /> (
+                <CasinoSlotNumber value="₹1,14,08,000" spinTrigger={spinKey} />)
+              </span>
             </div>
             <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-border">
               <div className="h-full bg-[var(--champagne)]" style={{ width: "62%" }} />
@@ -190,7 +210,10 @@ export function FinanceView() {
           <div>
             <div className="flex items-center justify-between text-xs">
               <span className="font-medium text-foreground">Fine Dining, Lounge & Wine Cellar</span>
-              <span className="font-semibold text-[var(--sunset)]">22% (₹40,48,000)</span>
+              <span className="font-semibold text-[var(--sunset)]">
+                <CasinoSlotNumber value="22%" spinTrigger={spinKey} /> (
+                <CasinoSlotNumber value="₹40,48,000" spinTrigger={spinKey} />)
+              </span>
             </div>
             <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-border">
               <div className="h-full bg-[var(--sunset)]" style={{ width: "22%" }} />
@@ -200,7 +223,10 @@ export function FinanceView() {
           <div>
             <div className="flex items-center justify-between text-xs">
               <span className="font-medium text-foreground">Oceanfront Ayurvedic Spa & Wellness</span>
-              <span className="font-semibold text-[var(--sage)]">11% (₹20,24,000)</span>
+              <span className="font-semibold text-[var(--sage)]">
+                <CasinoSlotNumber value="11%" spinTrigger={spinKey} /> (
+                <CasinoSlotNumber value="₹20,24,000" spinTrigger={spinKey} />)
+              </span>
             </div>
             <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-border">
               <div className="h-full bg-[var(--sage)]" style={{ width: "11%" }} />
@@ -210,7 +236,10 @@ export function FinanceView() {
           <div>
             <div className="flex items-center justify-between text-xs">
               <span className="font-medium text-foreground">Yacht Charters & Helicopter Transfers</span>
-              <span className="font-semibold text-[var(--sky)]">5% (₹9,20,000)</span>
+              <span className="font-semibold text-[var(--sky)]">
+                <CasinoSlotNumber value="5%" spinTrigger={spinKey} /> (
+                <CasinoSlotNumber value="₹9,20,000" spinTrigger={spinKey} />)
+              </span>
             </div>
             <div className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-border">
               <div className="h-full bg-[var(--sky)]" style={{ width: "5%" }} />
@@ -266,7 +295,7 @@ export function FinanceView() {
                     {txn.date}
                   </td>
                   <td className="px-5 py-4 font-mono font-semibold text-foreground">
-                    {txn.amount}
+                    <CasinoSlotNumber value={txn.amount} spinTrigger={spinKey} />
                   </td>
                   <td className="px-5 py-4 text-right">
                     <Badge

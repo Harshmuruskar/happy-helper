@@ -16,6 +16,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Booking, BookingStatus } from "./types";
+import { CasinoSlotNumber } from "./CasinoSlotNumber";
+import { useCasino } from "./CasinoControl";
 
 interface BookingsViewProps {
   bookings: Booking[];
@@ -53,6 +55,18 @@ export function BookingsView({
     return matchesSearch && matchesStatus;
   });
 
+  const { spinKey } = useCasino();
+
+  // Summary statistics
+  const totalFolioNum = bookings.reduce((sum, b) => {
+    const val = Number.parseInt(b.totalAmount.replace(/\D/g, "") || "0", 10);
+    return sum + val;
+  }, 0);
+  const formattedTotalFolio = `₹${totalFolioNum.toLocaleString("en-IN")}`;
+  const checkedInCount = bookings.filter((b) => b.status === "Checked In").length;
+  const vipCount = bookings.filter((b) => b.loyaltyTier === "VIP" || b.loyaltyTier === "Platinum").length;
+  const avgNights = (bookings.reduce((sum, b) => sum + b.nights, 0) / Math.max(1, bookings.length)).toFixed(1);
+
   return (
     <div className="space-y-6">
       {/* Header section with Module Accent: Deep Ocean + Champagne */}
@@ -88,6 +102,49 @@ export function BookingsView({
             New Reservation
           </Button>
         </div>
+      </section>
+
+      {/* Casino Stat Cards Strip */}
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Active Reservations
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-foreground">
+            <CasinoSlotNumber value={bookings.length} spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-[var(--sage)]">Real-time ledger entries</p>
+        </article>
+
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Gross Pipeline Folio
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-[var(--champagne)]">
+            <CasinoSlotNumber value={formattedTotalFolio} spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-[var(--sage)]">All suites and villas combined</p>
+        </article>
+
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Checked-In In-House
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-foreground">
+            <CasinoSlotNumber value={checkedInCount} spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-muted-foreground">Suites registered & in key</p>
+        </article>
+
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            VIP Loyalty Folios
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-[var(--sunset)]">
+            <CasinoSlotNumber value={vipCount} spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-[var(--sage)]">Avg. {avgNights} nights residence</p>
+        </article>
       </section>
 
       {/* Search & Filters */}
@@ -187,7 +244,7 @@ export function BookingsView({
                         >
                           {bk.loyaltyTier}
                         </Badge>
-                        <span>· {bk.guestsCount} Guests</span>
+                        <span>· <CasinoSlotNumber value={bk.guestsCount} interactive={false} /> Guests</span>
                       </div>
                     </td>
                     <td className="px-5 py-4">
@@ -200,10 +257,12 @@ export function BookingsView({
                       <div className="font-medium text-foreground">
                         {bk.checkIn} &rarr; {bk.checkOut}
                       </div>
-                      <span>{bk.nights} nights stay</span>
+                      <span>
+                        <CasinoSlotNumber value={bk.nights} interactive={false} /> nights stay
+                      </span>
                     </td>
                     <td className="px-5 py-4 font-mono font-semibold text-foreground">
-                      {bk.totalAmount}
+                      <CasinoSlotNumber value={bk.totalAmount} spinTrigger={spinKey} />
                     </td>
                     <td className="px-5 py-4">
                       <Badge

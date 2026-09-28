@@ -14,6 +14,8 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { CasinoSlotNumber } from "./CasinoSlotNumber";
+import { useCasino } from "./CasinoControl";
 
 interface SettingsViewProps {
   currentRole: string;
@@ -29,6 +31,7 @@ export function SettingsView({
   onToggleTheme,
 }: SettingsViewProps) {
   const [saveSuccess, setSaveSuccess] = useState(false);
+  const { spinKey } = useCasino();
 
   const roles = [
     {
@@ -84,6 +87,49 @@ export function SettingsView({
           <Save className="size-4" />
           {saveSuccess ? "Preferences Saved" : "Save Changes"}
         </Button>
+      </section>
+
+      {/* Casino System & Infrastructure Stats Bar */}
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Property Engine Uptime
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-[var(--champagne)]">
+            <CasinoSlotNumber value="99.98%" spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-[var(--sage)]">Fault-tolerant resort mesh</p>
+        </article>
+
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Active Staff Credentials
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-foreground">
+            <CasinoSlotNumber value="24" spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-[var(--sage)]">Biometric & NFC keys issued</p>
+        </article>
+
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Auto-Reconciled Folios
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-foreground">
+            <CasinoSlotNumber value="148" spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-muted-foreground">Night audit automated settlement</p>
+        </article>
+
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Audited Ledger Records
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-[var(--sunset)]">
+            <CasinoSlotNumber value="4,892" spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-[var(--sage)]">256-bit encrypted ledger</p>
+        </article>
       </section>
 
       {/* Role Switcher */}
@@ -191,24 +237,32 @@ export function SettingsView({
           <div className="mt-5 space-y-3 text-xs">
             <div className="flex items-center justify-between border-b border-border/60 pb-2">
               <span className="text-muted-foreground">Check-in Standard Hour:</span>
-              <span className="font-mono font-semibold text-foreground">14:00 PM</span>
+              <span className="font-mono font-semibold text-foreground">
+                <CasinoSlotNumber value="14:00" interactive={false} /> PM
+              </span>
             </div>
             <div className="flex items-center justify-between border-b border-border/60 pb-2">
               <span className="text-muted-foreground">Check-out Standard Hour:</span>
-              <span className="font-mono font-semibold text-foreground">11:00 AM</span>
+              <span className="font-mono font-semibold text-foreground">
+                <CasinoSlotNumber value="11:00" interactive={false} /> AM
+              </span>
             </div>
             <div className="flex items-center justify-between border-b border-border/60 pb-2">
               <span className="text-muted-foreground">Sunset Terrace Seating:</span>
-              <span className="font-mono font-semibold text-foreground">18:30 — 23:30</span>
+              <span className="font-mono font-semibold text-foreground">
+                <CasinoSlotNumber value="18:30" interactive={false} /> — <CasinoSlotNumber value="23:30" interactive={false} />
+              </span>
             </div>
             <div className="flex items-center justify-between border-b border-border/60 pb-2">
               <span className="text-muted-foreground">Beach Club Loungers:</span>
-              <span className="font-mono font-semibold text-foreground">06:00 — 19:00</span>
+              <span className="font-mono font-semibold text-foreground">
+                <CasinoSlotNumber value="06:00" interactive={false} /> — <CasinoSlotNumber value="19:00" interactive={false} />
+              </span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-muted-foreground">Night Audit Auto-Run:</span>
               <span className="font-mono font-semibold text-[var(--sage)]">
-                Completed at 03:00 AM
+                Completed at <CasinoSlotNumber value="03:00" interactive={false} /> AM
               </span>
             </div>
           </div>

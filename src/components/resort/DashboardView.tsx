@@ -29,6 +29,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Booking, Room } from "./types";
+import { CasinoSlotNumber } from "./CasinoSlotNumber";
+import { useCasino } from "./CasinoControl";
 import villaPool from "@/assets/coastal-villa-pool.jpg";
 import resortDay from "@/assets/coastal-resort-day.jpg";
 
@@ -51,35 +53,6 @@ const revenueData = [
   { month: "Oct (Proj)", thisYear: 42.0, lastYear: 33.3 },
 ];
 
-function CountUp({ value }: { value: string }) {
-  const match = value.match(/^(\D*)([\d.]+)(.*)$/);
-  const target = Number.parseFloat(match?.[2] ?? "0");
-  const decimals = match?.[2]?.split(".")[1]?.length ?? 0;
-  const [current, setCurrent] = useState(target);
-
-  useEffect(() => {
-    if (!match) return;
-    let frame = 0;
-    const start = performance.now();
-    const tick = (time: number) => {
-      const progress = Math.min(1, (time - start) / 900);
-      setCurrent(target * (1 - (1 - progress) ** 3));
-      if (progress < 1) frame = requestAnimationFrame(tick);
-    };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [target]);
-
-  if (!match) return <>{value}</>;
-  return (
-    <>
-      {match[1]}
-      {current.toFixed(decimals)}
-      {match[3]}
-    </>
-  );
-}
-
 export function DashboardView({
   bookings,
   rooms,
@@ -88,6 +61,7 @@ export function DashboardView({
   onNavigateTab,
   onSelectBooking,
 }: DashboardViewProps) {
+  const { spinKey } = useCasino();
   const occupiedRooms = rooms.filter((r) => r.status === "Occupied").length;
   const occupancyRate = Math.round((occupiedRooms / rooms.length) * 100);
 
@@ -95,7 +69,8 @@ export function DashboardView({
     {
       label: "Occupancy Rate",
       value: `${occupancyRate}%`,
-      delta: "+8.4% vs last week",
+      deltaValue: "+8.4%",
+      deltaLabel: "vs last week",
       subtext: `${occupiedRooms} of ${rooms.length} suites occupied`,
       icon: Shell,
       accent: "text-[var(--champagne)]",
@@ -104,7 +79,8 @@ export function DashboardView({
     {
       label: "Arrivals Today",
       value: "18",
-      delta: "+4 VIP arrivals scheduled",
+      deltaValue: "+4",
+      deltaLabel: "VIP arrivals scheduled",
       subtext: "First landing at 12:30 PM",
       icon: SunMedium,
       accent: "text-[var(--sunset)]",
@@ -113,7 +89,8 @@ export function DashboardView({
     {
       label: "Monthly Revenue",
       value: "₹38.4L",
-      delta: "+16.2% season growth",
+      deltaValue: "+16.2%",
+      deltaLabel: "season growth",
       subtext: "Ahead of budget forecast",
       icon: Gem,
       accent: "text-[var(--champagne)]",
@@ -122,7 +99,9 @@ export function DashboardView({
     {
       label: "Average Daily Rate",
       value: "₹28,500",
-      delta: "RevPAR ₹23,940",
+      deltaPrefix: "RevPAR ",
+      deltaValue: "₹23,940",
+      deltaLabel: "",
       subtext: "Luxury tier benchmark",
       icon: TrendingUp,
       accent: "text-[var(--sage)]",
@@ -154,8 +133,10 @@ export function DashboardView({
             <em className="font-normal italic text-[var(--champagne)]">Amol.</em>
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
-            The property is operating smoothly across all 8 ocean pavilions. Helipad reception is primed,
-            Sunset Terrace is prepared, and 18 luxury suites are serviced.
+            The property is operating smoothly across all{" "}
+            <CasinoSlotNumber value="8" spinTrigger={spinKey} className="font-semibold text-foreground" /> ocean pavilions. Helipad reception is primed,
+            Sunset Terrace is prepared, and{" "}
+            <CasinoSlotNumber value="18" spinTrigger={spinKey} className="font-semibold text-foreground" /> luxury suites are serviced.
           </p>
         </div>
 
@@ -191,9 +172,9 @@ export function DashboardView({
                 <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
                   {kpi.label}
                 </p>
-                <p className="mt-2.5 font-display text-3xl font-semibold text-foreground">
-                  <CountUp value={kpi.value} />
-                </p>
+                <div className="mt-2.5 font-display text-3xl font-semibold text-foreground">
+                  <CasinoSlotNumber value={kpi.value} spinTrigger={spinKey} mode="jackpot" />
+                </div>
               </div>
               <div
                 className={`flex size-10 items-center justify-center rounded-lg border border-border bg-accent/60 ${kpi.accent} transition-transform duration-300 group-hover:scale-110`}
@@ -205,7 +186,9 @@ export function DashboardView({
             <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-3 text-xs">
               <span className="flex items-center gap-1 font-medium text-[var(--sage)]">
                 <ArrowUpRight className="size-3.5" />
-                {kpi.delta}
+                {kpi.deltaPrefix && <span>{kpi.deltaPrefix}</span>}
+                <CasinoSlotNumber value={kpi.deltaValue} spinTrigger={spinKey} />
+                {kpi.deltaLabel && <span className="ml-0.5 text-muted-foreground">{kpi.deltaLabel}</span>}
               </span>
               <span className="text-[11px] text-muted-foreground">{kpi.subtext}</span>
             </div>
@@ -347,7 +330,9 @@ export function DashboardView({
                 <Badge variant="sage">Ready for VIP Check-in</Badge>
               </div>
               <div className="mt-3 flex items-center justify-between border-t border-border/70 pt-3 text-xs">
-                <span className="font-semibold text-foreground">₹35,000 / night</span>
+                <span className="font-semibold text-foreground">
+                  <CasinoSlotNumber value="₹35,000" spinTrigger={spinKey} /> / night
+                </span>
                 <Button
                   size="sm"
                   variant="outline"
@@ -374,15 +359,21 @@ export function DashboardView({
             <div className="mt-3 grid grid-cols-3 gap-2 rounded-lg border border-border/60 bg-accent/40 p-2.5 text-center text-xs">
               <div>
                 <p className="text-[10px] uppercase text-muted-foreground">Sea Temp</p>
-                <p className="mt-0.5 font-semibold text-foreground">27°C</p>
+                <p className="mt-0.5 font-semibold text-foreground">
+                  <CasinoSlotNumber value="27" spinTrigger={spinKey} />°C
+                </p>
               </div>
               <div>
                 <p className="text-[10px] uppercase text-muted-foreground">High Tide</p>
-                <p className="mt-0.5 font-semibold text-foreground">17:45 (+2.1m)</p>
+                <p className="mt-0.5 font-semibold text-foreground">
+                  17:45 (<CasinoSlotNumber value="+2.1m" spinTrigger={spinKey} />)
+                </p>
               </div>
               <div>
                 <p className="text-[10px] uppercase text-muted-foreground">Visibility</p>
-                <p className="mt-0.5 font-semibold text-foreground">14 km</p>
+                <p className="mt-0.5 font-semibold text-foreground">
+                  <CasinoSlotNumber value="14" spinTrigger={spinKey} /> km
+                </p>
               </div>
             </div>
             <p className="mt-2.5 text-[11px] text-muted-foreground">
@@ -441,7 +432,8 @@ export function DashboardView({
                       <span className="text-[11px] text-[var(--champagne)]">{bk.roomCode}</span>
                     </td>
                     <td className="py-3.5 text-xs text-muted-foreground">
-                      {bk.checkIn.slice(5)} &rarr; {bk.checkOut.slice(5)} ({bk.nights} nights)
+                      {bk.checkIn.slice(5)} &rarr; {bk.checkOut.slice(5)} (
+                      <CasinoSlotNumber value={bk.nights} interactive={false} /> nights)
                     </td>
                     <td className="py-3.5 text-right">
                       <Badge
@@ -517,7 +509,9 @@ export function DashboardView({
           <div className="mt-5 rounded-lg border border-border/60 bg-accent/40 p-3.5">
             <div className="flex items-center justify-between text-xs">
               <span className="font-medium text-foreground">Housekeeping Progress</span>
-              <span className="font-semibold text-[var(--champagne)]">88% Turn-down Ready</span>
+              <span className="font-semibold text-[var(--champagne)]">
+                <CasinoSlotNumber value="88%" spinTrigger={spinKey} /> Turn-down Ready
+              </span>
             </div>
             <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-border">
               <div className="h-full bg-[var(--champagne)]" style={{ width: "88%" }} />

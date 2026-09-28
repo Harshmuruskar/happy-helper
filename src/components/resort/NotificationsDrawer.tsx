@@ -9,6 +9,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ResortNotification } from "./types";
+import { CasinoSlotNumber } from "./CasinoSlotNumber";
 
 interface NotificationsDrawerProps {
   open: boolean;
@@ -47,7 +48,7 @@ export function NotificationsDrawer({
                 Resort Live Dispatch
               </h2>
               <p className="text-xs text-muted-foreground">
-                {unreadCount} unread operational alerts
+                <CasinoSlotNumber value={unreadCount} interactive={false} /> unread operational alerts
               </p>
             </div>
           </div>

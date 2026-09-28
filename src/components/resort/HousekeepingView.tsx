@@ -11,6 +11,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { HousekeepingTask } from "./types";
+import { CasinoSlotNumber } from "./CasinoSlotNumber";
+import { useCasino } from "./CasinoControl";
 
 interface HousekeepingViewProps {
   tasks: HousekeepingTask[];
@@ -19,12 +21,19 @@ interface HousekeepingViewProps {
 
 export function HousekeepingView({ tasks, onUpdateTask }: HousekeepingViewProps) {
   const [priorityFilter, setPriorityFilter] = useState<string>("All");
+  const { spinKey } = useCasino();
 
   const priorities = ["All", "VIP Arrival", "High", "Standard", "Turn-down"];
 
   const filtered = tasks.filter(
     (t) => priorityFilter === "All" || t.priority === priorityFilter
   );
+
+  const inspectedCount = tasks.filter(
+    (t) => t.status === "Inspected" || t.status === "Completed"
+  ).length;
+  const inProgressCount = tasks.filter((t) => t.status === "In Progress").length;
+  const vipPrepCount = tasks.filter((t) => t.priority === "VIP Arrival").length;
 
   return (
     <div className="space-y-6">
@@ -48,9 +57,52 @@ export function HousekeepingView({ tasks, onUpdateTask }: HousekeepingViewProps)
         <div className="flex items-center gap-2">
           <Badge variant="sage" className="px-3 py-1 text-xs">
             <Sparkles className="mr-1 size-3.5" />
-            88% Suites Inspected & Approved
+            <CasinoSlotNumber value="88%" spinTrigger={spinKey} interactive={false} /> Suites Inspected & Approved
           </Badge>
         </div>
+      </section>
+
+      {/* Casino Stats Bar */}
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Total Shift Tasks
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-foreground">
+            <CasinoSlotNumber value={tasks.length} spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-[var(--sage)]">Daily active turn schedule</p>
+        </article>
+
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Inspected & Released
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-[var(--champagne)]">
+            <CasinoSlotNumber value={inspectedCount} spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-[var(--sage)]">Passed 5-star sanitization QA</p>
+        </article>
+
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            In-Progress Turn-downs
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-[var(--sunset)]">
+            <CasinoSlotNumber value={inProgressCount} spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-muted-foreground">Housekeeping teams dispatched</p>
+        </article>
+
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            VIP Arrival Queue
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-foreground">
+            <CasinoSlotNumber value={vipPrepCount} spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-[var(--sage)]">Priority express turnover</p>
+        </article>
       </section>
 
       {/* Filter toolbar */}

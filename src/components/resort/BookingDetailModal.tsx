@@ -12,6 +12,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Booking, BookingStatus } from "./types";
+import { CasinoSlotNumber } from "./CasinoSlotNumber";
 
 interface BookingDetailModalProps {
   booking: Booking | null;
@@ -84,7 +85,9 @@ export function BookingDetailModal({
               <p className="mt-0.5 font-semibold text-[var(--champagne)]">
                 {booking.loyaltyTier} Member
               </p>
-              <p className="mt-0.5 text-muted-foreground">{booking.guestsCount} Registered Guests</p>
+              <p className="mt-0.5 text-muted-foreground">
+                <CasinoSlotNumber value={booking.guestsCount} interactive={false} /> Registered Guests
+              </p>
             </div>
           </div>
 
@@ -109,14 +112,16 @@ export function BookingDetailModal({
               <p className="mt-1 font-medium text-foreground">
                 {booking.checkIn} &rarr; {booking.checkOut}
               </p>
-              <p className="mt-0.5 text-muted-foreground">{booking.nights} Nights Residence</p>
+              <p className="mt-0.5 text-muted-foreground">
+                <CasinoSlotNumber value={booking.nights} interactive={false} /> Nights Residence
+              </p>
             </div>
 
             <div className="rounded-lg border border-border bg-accent/40 p-3">
               <span className="text-[10px] uppercase text-muted-foreground">Total Folio Charge</span>
-              <p className="mt-1 font-mono text-base font-bold text-[var(--champagne)]">
-                {booking.totalAmount}
-              </p>
+              <div className="mt-1 font-mono text-base font-bold text-[var(--champagne)]">
+                <CasinoSlotNumber value={booking.totalAmount} mode="jackpot" />
+              </div>
               <p className="mt-0.5 text-muted-foreground">All taxes & butler gratuity included</p>
             </div>
           </div>

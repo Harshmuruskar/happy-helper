@@ -13,6 +13,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Room, RoomStatus } from "./types";
+import { CasinoSlotNumber } from "./CasinoSlotNumber";
+import { useCasino } from "./CasinoControl";
 import villaPool from "@/assets/coastal-villa-pool.jpg";
 import resortDay from "@/assets/coastal-resort-day.jpg";
 
@@ -41,6 +43,18 @@ export function RoomsView({ rooms, onUpdateRoomStatus }: RoomsViewProps) {
     const matchesWing = wingFilter === "All" || r.wing === wingFilter;
     return matchesStatus && matchesWing;
   });
+
+  const { spinKey } = useCasino();
+
+  // Suite Inventory Metrics
+  const occupiedCount = rooms.filter((r) => r.status === "Occupied").length;
+  const readyCount = rooms.filter((r) => r.status === "Ready").length;
+  const maintenanceCount = rooms.filter((r) => r.status === "Housekeeping" || r.status === "Maintenance").length;
+  const avgRate = Math.round(
+    rooms.reduce((acc, r) => acc + Number.parseInt(r.ratePerNight.replace(/\D/g, "") || "0", 10), 0) /
+      Math.max(1, rooms.length)
+  );
+  const formattedAvgRate = `₹${avgRate.toLocaleString("en-IN")}`;
 
   return (
     <div className="space-y-6">
@@ -81,6 +95,53 @@ export function RoomsView({ rooms, onUpdateRoomStatus }: RoomsViewProps) {
             List View
           </Button>
         </div>
+      </section>
+
+      {/* Casino Stats Bar */}
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Total Inventory Suites
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-foreground">
+            <CasinoSlotNumber value={rooms.length} spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-[var(--sage)]">Across all 5 architectural wings</p>
+        </article>
+
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Active Occupancy
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-[var(--champagne)]">
+            <CasinoSlotNumber
+              value={`${Math.round((occupiedCount / Math.max(1, rooms.length)) * 100)}%`}
+              spinTrigger={spinKey}
+              mode="jackpot"
+            />
+          </div>
+          <p className="mt-1 text-[11px] text-[var(--sage)]">{occupiedCount} suites in residence</p>
+        </article>
+
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Turn-Down Ready
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-foreground">
+            <CasinoSlotNumber value={readyCount} spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-[var(--sage)]">QA sanitization passed</p>
+        </article>
+
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Benchmark Nightly Yield
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-[var(--sunset)]">
+            <CasinoSlotNumber value={formattedAvgRate} spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-muted-foreground">{maintenanceCount} in turnover prep</p>
+        </article>
       </section>
 
       {/* Filter Toolbar */}
@@ -177,7 +238,10 @@ export function RoomsView({ rooms, onUpdateRoomStatus }: RoomsViewProps) {
                 <div>
                   <div className="flex items-center justify-between text-xs text-muted-foreground">
                     <span>{rm.view}</span>
-                    <span>{rm.sqm} m² · Up to {rm.capacity} guests</span>
+                    <span>
+                      <CasinoSlotNumber value={rm.sqm} interactive={false} /> m² · Up to{" "}
+                      <CasinoSlotNumber value={rm.capacity} interactive={false} /> guests
+                    </span>
                   </div>
 
                   {/* Feature chips */}
@@ -204,9 +268,9 @@ export function RoomsView({ rooms, onUpdateRoomStatus }: RoomsViewProps) {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="text-[10px] uppercase text-muted-foreground">Nightly Rate</p>
-                      <p className="font-display text-base font-semibold text-[var(--champagne)]">
-                        {rm.ratePerNight}
-                      </p>
+                      <div className="font-display text-base font-semibold text-[var(--champagne)]">
+                        <CasinoSlotNumber value={rm.ratePerNight} spinTrigger={spinKey} />
+                      </div>
                     </div>
 
                     {/* Status Changer dropdown / quick button */}
@@ -253,7 +317,7 @@ export function RoomsView({ rooms, onUpdateRoomStatus }: RoomsViewProps) {
                     <td className="px-5 py-4">
                       <div className="font-medium text-foreground">{rm.name}</div>
                       <div className="text-xs text-muted-foreground">
-                        {rm.sqm} m² · {rm.type}
+                        <CasinoSlotNumber value={rm.sqm} interactive={false} /> m² · {rm.type}
                       </div>
                     </td>
                     <td className="px-5 py-4 text-xs text-muted-foreground">
@@ -268,7 +332,7 @@ export function RoomsView({ rooms, onUpdateRoomStatus }: RoomsViewProps) {
                       )}
                     </td>
                     <td className="px-5 py-4 font-mono font-semibold text-foreground">
-                      {rm.ratePerNight}
+                      <CasinoSlotNumber value={rm.ratePerNight} spinTrigger={spinKey} />
                     </td>
                     <td className="px-5 py-4">
                       <Badge

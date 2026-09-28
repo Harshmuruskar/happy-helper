@@ -14,6 +14,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Guest } from "./types";
+import { CasinoSlotNumber } from "./CasinoSlotNumber";
+import { useCasino } from "./CasinoControl";
 
 interface GuestsViewProps {
   guests: Guest[];
@@ -23,6 +25,16 @@ interface GuestsViewProps {
 export function GuestsView({ guests, onSelectGuest }: GuestsViewProps) {
   const [search, setSearch] = useState("");
   const [tierFilter, setTierFilter] = useState<string>("All");
+
+  const { spinKey } = useCasino();
+
+  const totalVipSpend = guests.reduce(
+    (sum, g) => sum + Number.parseInt(g.totalSpent.replace(/\D/g, "") || "0", 10),
+    0
+  );
+  const formattedVipSpend = `₹${totalVipSpend.toLocaleString("en-IN")}`;
+  const totalStays = guests.reduce((sum, g) => sum + g.totalStays, 0);
+  const platinumCount = guests.filter((g) => g.loyaltyTier === "Platinum").length;
 
   const tiers = ["All", "Platinum", "Gold", "Silver"];
 
@@ -57,9 +69,52 @@ export function GuestsView({ guests, onSelectGuest }: GuestsViewProps) {
         <div className="flex items-center gap-2">
           <Badge variant="gold" className="px-3 py-1 text-xs">
             <Crown className="mr-1 size-3.5" />
-            {guests.filter((g) => g.loyaltyTier === "Platinum").length} Platinum Members In-House
+            <CasinoSlotNumber value={platinumCount} spinTrigger={spinKey} interactive={false} /> Platinum Members In-House
           </Badge>
         </div>
+      </section>
+
+      {/* Casino Stats Bar */}
+      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Cumulative VIP Folio
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-[var(--champagne)]">
+            <CasinoSlotNumber value={formattedVipSpend} spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-[var(--sage)]">Combined lifetime resort receipts</p>
+        </article>
+
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Total VIP Residencies
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-foreground">
+            <CasinoSlotNumber value={totalStays} spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-[var(--sage)]">Across suites, villas & penthouses</p>
+        </article>
+
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            High-Roller Retention
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-[var(--sunset)]">
+            <CasinoSlotNumber value="94.2%" spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-[var(--sage)]">Repeat visit probability</p>
+        </article>
+
+        <article className="resort-card p-4">
+          <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Registered In-House
+          </span>
+          <div className="mt-1.5 font-display text-2xl font-bold text-foreground">
+            <CasinoSlotNumber value={guests.length} spinTrigger={spinKey} mode="jackpot" />
+          </div>
+          <p className="mt-1 text-[11px] text-muted-foreground">Full concierge profiles active</p>
+        </article>
       </section>
 
       {/* Search & Loyalty Filter Bar */}
@@ -144,8 +199,12 @@ export function GuestsView({ guests, onSelectGuest }: GuestsViewProps) {
                 </div>
                 <div>
                   <span className="text-[10px] uppercase text-muted-foreground">Lifetime Folio</span>
-                  <p className="font-medium text-foreground">{g.totalSpent}</p>
-                  <p className="mt-0.5 text-[11px] text-muted-foreground">{g.totalStays} Stays at Resort</p>
+                  <div className="font-medium text-foreground">
+                    <CasinoSlotNumber value={g.totalSpent} spinTrigger={spinKey} />
+                  </div>
+                  <p className="mt-0.5 text-[11px] text-muted-foreground">
+                    <CasinoSlotNumber value={g.totalStays} interactive={false} /> Stays at Resort
+                  </p>
                 </div>
               </div>
 

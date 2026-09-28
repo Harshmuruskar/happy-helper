@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Booking, Room } from "./types";
+import { CasinoSlotNumber } from "./CasinoSlotNumber";
 
 interface NewBookingModalProps {
   open: boolean;
@@ -284,9 +285,9 @@ export function NewBookingModal({
           <div className="rounded-lg border border-border bg-accent/40 p-3.5">
             <div className="flex items-center justify-between text-xs">
               <span className="text-muted-foreground">Estimated Total (4 Nights + Add-on):</span>
-              <span className="font-mono text-base font-bold text-[var(--champagne)]">
-                {formattedTotal}
-              </span>
+              <div className="font-mono text-base font-bold text-[var(--champagne)]">
+                <CasinoSlotNumber value={formattedTotal} mode="jackpot" />
+              </div>
             </div>
           </div>
 

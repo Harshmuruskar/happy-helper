@@ -13,6 +13,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { OrderStage, RestaurantOrder } from "./types";
+import { CasinoSlotNumber } from "./CasinoSlotNumber";
+import { useCasino } from "./CasinoControl";
 
 interface RestaurantViewProps {
   orders: RestaurantOrder[];
@@ -21,6 +23,7 @@ interface RestaurantViewProps {
 
 export function RestaurantView({ orders, onAdvanceOrder }: RestaurantViewProps) {
   const [selectedVenue, setSelectedVenue] = useState<string>("All");
+  const { spinKey } = useCasino();
 
   const venues = [
     "All",
@@ -33,6 +36,8 @@ export function RestaurantView({ orders, onAdvanceOrder }: RestaurantViewProps) 
   const filteredOrders = orders.filter(
     (o) => selectedVenue === "All" || o.venue.includes(selectedVenue.split(" ")[0])
   );
+
+  const activeTicketsCount = orders.filter((o) => o.stage !== "Served").length;
 
   return (
     <div className="space-y-6">
@@ -56,7 +61,7 @@ export function RestaurantView({ orders, onAdvanceOrder }: RestaurantViewProps) 
         <div className="flex items-center gap-3">
           <Badge variant="sunset" className="px-3 py-1 text-xs">
             <Flame className="mr-1 size-3.5" />
-            Kitchen Active · 4 Live Tickets
+            Kitchen Active · <CasinoSlotNumber value={activeTicketsCount} spinTrigger={spinKey} interactive={false} /> Live Tickets
           </Badge>
         </div>
       </section>
@@ -69,13 +74,17 @@ export function RestaurantView({ orders, onAdvanceOrder }: RestaurantViewProps) 
               <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                 Dinner Covers Today
               </p>
-              <p className="mt-2 font-display text-3xl font-semibold text-foreground">142</p>
+              <div className="mt-2 font-display text-3xl font-semibold text-foreground">
+                <CasinoSlotNumber value="142" spinTrigger={spinKey} mode="jackpot" />
+              </div>
             </div>
             <div className="flex size-10 items-center justify-center rounded-lg border border-[var(--sunset)]/30 bg-[var(--sunset)]/10 text-[var(--sunset)]">
               <UtensilsCrossed className="size-5" />
             </div>
           </div>
-          <p className="mt-3 text-xs text-[var(--sage)]">+18 reservations confirmed for 20:00</p>
+          <p className="mt-3 text-xs text-[var(--sage)]">
+            <CasinoSlotNumber value="+18" spinTrigger={spinKey} /> reservations confirmed for 20:00
+          </p>
         </article>
 
         <article className="resort-card p-5">
@@ -84,7 +93,9 @@ export function RestaurantView({ orders, onAdvanceOrder }: RestaurantViewProps) 
               <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                 Table Occupancy
               </p>
-              <p className="mt-2 font-display text-3xl font-semibold text-foreground">92%</p>
+              <div className="mt-2 font-display text-3xl font-semibold text-foreground">
+                <CasinoSlotNumber value="92%" spinTrigger={spinKey} mode="jackpot" />
+              </div>
             </div>
             <div className="flex size-10 items-center justify-center rounded-lg border border-[var(--sunset)]/30 bg-[var(--sunset)]/10 text-[var(--sunset)]">
               <ConciergeBell className="size-5" />
@@ -99,13 +110,17 @@ export function RestaurantView({ orders, onAdvanceOrder }: RestaurantViewProps) 
               <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                 Today's F&B Revenue
               </p>
-              <p className="mt-2 font-display text-3xl font-semibold text-foreground">₹2,88,700</p>
+              <div className="mt-2 font-display text-3xl font-semibold text-foreground">
+                <CasinoSlotNumber value="₹2,88,700" spinTrigger={spinKey} mode="jackpot" />
+              </div>
             </div>
             <div className="flex size-10 items-center justify-center rounded-lg border border-[var(--champagne)]/30 bg-[var(--champagne)]/10 text-[var(--champagne)]">
               <Wine className="size-5" />
             </div>
           </div>
-          <p className="mt-3 text-xs text-[var(--sage)]">+22% Grand Cru cellar selections</p>
+          <p className="mt-3 text-xs text-[var(--sage)]">
+            <CasinoSlotNumber value="+22%" spinTrigger={spinKey} /> Grand Cru cellar selections
+          </p>
         </article>
 
         <article className="resort-card p-5">
@@ -114,7 +129,9 @@ export function RestaurantView({ orders, onAdvanceOrder }: RestaurantViewProps) 
               <p className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                 Avg. Ticket Prep Time
               </p>
-              <p className="mt-2 font-display text-3xl font-semibold text-foreground">16m</p>
+              <div className="mt-2 font-display text-3xl font-semibold text-foreground">
+                <CasinoSlotNumber value="16m" spinTrigger={spinKey} mode="jackpot" />
+              </div>
             </div>
             <div className="flex size-10 items-center justify-center rounded-lg border border-[var(--sage)]/30 bg-[var(--sage)]/10 text-[var(--sage)]">
               <Clock className="size-5" />
@@ -208,7 +225,7 @@ export function RestaurantView({ orders, onAdvanceOrder }: RestaurantViewProps) 
                 {/* Ordered Items List */}
                 <div className="mt-4 rounded-lg border border-border/80 bg-accent/40 p-3">
                   <p className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
-                    Items ({ord.items.length}):
+                    Items (<CasinoSlotNumber value={ord.items.length} interactive={false} />):
                   </p>
                   <ul className="mt-1.5 space-y-1 text-xs text-foreground">
                     {ord.items.map((it, idx) => (
@@ -222,9 +239,9 @@ export function RestaurantView({ orders, onAdvanceOrder }: RestaurantViewProps) 
               </div>
 
               <div className="mt-4 flex items-center justify-between border-t border-border/70 pt-3">
-                <span className="font-mono text-sm font-semibold text-foreground">
-                  {ord.totalAmount}
-                </span>
+                <div className="font-mono text-sm font-semibold text-foreground">
+                  <CasinoSlotNumber value={ord.totalAmount} spinTrigger={spinKey} />
+                </div>
 
                 {ord.stage !== "Served" ? (
                   <Button
