@@ -1,12 +1,13 @@
-# Happy Helper
+# Oasis Admin
 
-hi
+https://themewagon.github.io/spark-admin
+this i have created for resort management application but it is the coloer palae is not matching to theam i want that it should be a bear relazying , fresh , aloso from wokr to staf every one will use to the theam should be like taht
 
 This project was built with [Lovable](https://lovable.dev).
 
 ## Build with Lovable
 
-Continue developing this project in the [Lovable editor](https://lovable.dev/projects/b8c1305e-43a4-4571-9cfb-427fc2a557c8).
+Continue developing this project in the [Lovable editor](https://lovable.dev/projects/bcc6c542-86f9-44fe-bf8e-a7ed7bee4757).
 
 - **Ship faster**: describe what you want to build and Lovable handles the code.
 - **Stay in sync**: every change made in Lovable is committed straight to this repository.

@@ -8,12 +8,18 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: "border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/80",
+        default: "border-transparent bg-primary text-primary-foreground shadow hover:bg-primary/90",
         secondary:
           "border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80",
         destructive:
-          "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/80",
-        outline: "text-foreground",
+          "border-transparent bg-destructive text-destructive-foreground shadow hover:bg-destructive/90",
+        outline: "border-border text-foreground",
+        gold: "border-[var(--champagne)]/40 bg-[var(--gold-soft)] text-[var(--champagne)]",
+        sage: "border-[var(--sage)]/35 bg-[var(--sage)]/15 text-[var(--sage)]",
+        sunset: "border-[var(--sunset)]/40 bg-[var(--sunset)]/15 text-[var(--sunset)]",
+        ocean: "border-[var(--ocean)]/30 bg-[var(--ocean)]/10 text-[var(--ocean)] dark:text-[var(--champagne)]",
+        sky: "border-[var(--sky)]/40 bg-[var(--sky)]/15 text-[var(--primary)] dark:text-[var(--sky)]",
+        copper: "border-[var(--copper)]/35 bg-[var(--copper)]/15 text-[var(--copper)]",
       },
     },
     defaultVariants: {
