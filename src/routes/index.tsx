@@ -57,6 +57,8 @@ import { SettingsView } from "@/components/resort/SettingsView";
 import { NewBookingModal } from "@/components/resort/NewBookingModal";
 import { BookingDetailModal } from "@/components/resort/BookingDetailModal";
 import { NotificationsDrawer } from "@/components/resort/NotificationsDrawer";
+import sidebarGoldenSunrise from "@/assets/sidebar-golden-sunrise.jpg";
+import sidebarLuxurySunset from "@/assets/sidebar-luxury-sunset.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -279,6 +281,24 @@ export function ResortApp() {
           menuOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
+        <img
+          src={sidebarGoldenSunrise}
+          alt=""
+          width={768}
+          height={1536}
+          aria-hidden="true"
+          className="sidebar-atmosphere sidebar-atmosphere-day"
+        />
+        <img
+          src={sidebarLuxurySunset}
+          alt=""
+          width={768}
+          height={1536}
+          aria-hidden="true"
+          className="sidebar-atmosphere sidebar-atmosphere-night"
+        />
+        <div className="sidebar-atmosphere-overlay" aria-hidden="true" />
+
         {/* Brand Header */}
         <div className="flex items-start justify-between border-b border-[var(--sidebar-border)] pb-5">
           <div className="flex items-center gap-3">
