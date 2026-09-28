@@ -74,6 +74,7 @@ import {
   initialRooms,
   initialServiceBookings,
   initialServices,
+  initialSupportTickets,
   rolePermissions,
 } from "@/components/resort/resortData";
 
