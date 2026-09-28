@@ -91,14 +91,13 @@
   --input: #E7DED0;
   --ring: #C9A45C;
 
-  /* Sidebar: Deep Ocean #173B4D */
-  --sidebar-bg: #173B4D;
-  --sidebar-foreground: #F8F6F0;
-  --sidebar-muted: #A9C9D8;
-  --sidebar-border: rgba(231, 222, 208, 0.15);
-  --sidebar-active-bg: rgba(201, 164, 92, 0.16);
-  --sidebar-active-text: #C9A45C;
-  --sidebar-image-overlay: linear-gradient(180deg, rgba(23, 59, 77, 0.76) 0%, rgba(23, 59, 77, 0.62) 45%, rgba(16, 43, 54, 0.82) 100%);
+  /* Sidebar (Untitled UI Modern Light Inspiration + Golden Sunrise Palette) */
+  --sidebar-bg: #FFFFFF;
+  --sidebar-foreground: #24313A;
+  --sidebar-muted: #78817D;
+  --sidebar-border: #E7DED0;
+  --sidebar-active-bg: #F4EFE6;
+  --sidebar-active-text: #173B4D;
 
   /* Module Accents */
   --accent-rooms: #718B7A;
@@ -261,43 +260,8 @@
 /* Sidebar */
 .resort-sidebar {
   isolation: isolate;
-  overflow: hidden;
   background: var(--sidebar-bg);
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.12);
-}
-
-.resort-sidebar > :not(.sidebar-atmosphere):not(.sidebar-atmosphere-overlay) {
-  position: relative;
-  z-index: 2;
-}
-
-.sidebar-atmosphere,
-.sidebar-atmosphere-overlay {
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  height: 100%;
-  width: 100%;
-}
-
-.sidebar-atmosphere {
-  z-index: 0;
-  object-fit: cover;
-  object-position: center;
-  transition: opacity 950ms cubic-bezier(0.4, 0, 0.2, 1), transform 1200ms cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.sidebar-atmosphere-day {
-  opacity: 1;
-}
-
-.sidebar-atmosphere-overlay {
-  z-index: 1;
-  background: var(--sidebar-image-overlay);
-}
-
-.resort-sidebar:hover .sidebar-atmosphere {
-  transform: scale(1.015);
+  box-shadow: 1px 0 8px rgba(23, 59, 77, 0.04);
 }
 
 /* Buttons with one-time shine on hover */

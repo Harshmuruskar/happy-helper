@@ -94,7 +94,7 @@ import { NotificationsDrawer } from "@/components/resort/NotificationsDrawer";
 import { PersonaSwitcherModal } from "@/components/resort/PersonaSwitcherModal";
 import { CasinoProvider, CasinoRollButton } from "@/components/resort/CasinoControl";
 import { CasinoSlotNumber } from "@/components/resort/CasinoSlotNumber";
-import sidebarGoldenSunrise from "@/assets/sidebar-golden-sunrise.jpg";
+import { ResortSidebar } from "@/components/resort/ResortSidebar";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -121,6 +121,7 @@ export const Route = createFileRoute("/")({
 export function ResortApp() {
   const [activeTab, setActiveTab] = useState<ModuleTab>("dashboard");
   const [menuOpen, setMenuOpen] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
   // Authentication & Persona state (default General Manager)
   const [currentAccount, setCurrentAccount] = useState<Account>(initialAccounts[0]!);
@@ -488,67 +489,6 @@ export function ResortApp() {
     rolePermissions.find((p) => p.role === currentAccount.role) ?? rolePermissions[0]!;
   const allowedTabs = currentPermission.allowedTabs;
 
-  const allNavItems = [
-    {
-      tab: "dashboard" as ModuleTab,
-      label: currentAccount.role === "Guest" ? "Guest Sanctuary" : "Dashboard",
-      icon: LayoutDashboard,
-      iconClass: "",
-      badge: undefined,
-    },
-    {
-      tab: "bookings" as ModuleTab,
-      label: "Reservations",
-      icon: CalendarCheck2,
-      iconClass: "icon-calendar-item",
-      badge: `${bookings.length}`,
-    },
-    {
-      tab: "rooms" as ModuleTab,
-      label: "Suites & Villas",
-      icon: BedDouble,
-      iconClass: "icon-rooms-item",
-      badge: undefined,
-    },
-    {
-      tab: "people" as ModuleTab,
-      label: "People & Support",
-      icon: Users,
-      iconClass: "",
-      badge: `${supportTickets.filter((t) => t.status === "Open").length} New`,
-    },
-    {
-      tab: "amenities" as ModuleTab,
-      label: "Concierge & Services",
-      icon: ConciergeBell,
-      iconClass: "icon-restaurant-item",
-      badge: `${serviceBookings.filter((s) => s.status !== "Completed").length}`,
-    },
-    {
-      tab: "billing" as ModuleTab,
-      label: "Folio Billing",
-      icon: Receipt,
-      iconClass: "icon-finance-item",
-      badge: undefined,
-    },
-    {
-      tab: "operations" as ModuleTab,
-      label: "Operations & Vault",
-      icon: Sparkles,
-      iconClass: "",
-      badge: `${tasks.filter((t) => t.status === "Pending").length}`,
-    },
-    {
-      tab: "administration" as ModuleTab,
-      label: "Administration",
-      icon: ShieldCheck,
-      iconClass: "icon-settings-item",
-      badge: undefined,
-    },
-  ];
-
-  const visibleNavItems = allNavItems.filter((item) => allowedTabs.includes(item.tab));
-
   return (
     <CasinoProvider>
       <div className="resort-shell relative min-h-screen bg-background text-foreground antialiased selection:bg-[var(--champagne)] selection:text-black">
@@ -564,145 +504,39 @@ export function ResortApp() {
           />
         )}
 
-        {/* SECTION 6: LUXURY SIDEBAR
-            Golden Sunrise Deep Ocean #173B4D with solid surfaces and Champagne highlights
-        */}
-        <aside
-          className={`resort-sidebar fixed inset-y-0 left-0 z-40 flex w-64 flex-col border-r border-[var(--sidebar-border)] px-5 py-6 text-[var(--sidebar-foreground)] transition-transform duration-300 lg:translate-x-0 ${
-            menuOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          <img
-            src={sidebarGoldenSunrise}
-            alt=""
-            width={768}
-            height={1536}
-            aria-hidden="true"
-            className="sidebar-atmosphere sidebar-atmosphere-day"
-          />
-          <div className="sidebar-atmosphere-overlay" aria-hidden="true" />
-
-          {/* Brand Header */}
-          <div className="flex items-start justify-between border-b border-[var(--sidebar-border)] pb-5">
-            <div className="flex items-center gap-3">
-              <span className="flex size-10 items-center justify-center rounded-full border border-[var(--champagne)]/60 bg-[var(--champagne)] text-black shadow-md">
-                <Waves className="size-5" />
-              </span>
-              <div>
-                <p className="font-display text-lg font-bold leading-tight tracking-tight text-[var(--sidebar-foreground)]">
-                  Palm Grove
-                </p>
-                <p className="mt-0.5 text-[10px] font-semibold uppercase tracking-[0.22em] text-[var(--champagne)]">
-                  Coastal Resort · 5★ RRMS
-                </p>
-              </div>
-            </div>
-            <Button
-              variant="ghost"
-              size="icon"
-              className="text-[var(--sidebar-muted)] hover:text-white lg:hidden"
-              onClick={() => setMenuOpen(false)}
-            >
-              <X className="size-5" />
-            </Button>
-          </div>
-
-          {/* Navigation */}
-          <nav className="mt-6 flex-1 space-y-1">
-            <div className="flex items-center justify-between px-3 pb-2">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-[var(--sidebar-muted)]">
-                {currentAccount.module} Portal
-              </p>
-              <span className="rounded bg-[var(--champagne)]/20 px-1.5 py-0.5 text-[9px] font-mono text-[var(--champagne)]">
-                {currentAccount.role}
-              </span>
-            </div>
-
-            <ul className="space-y-1.5">
-              {visibleNavItems.map((item) => {
-                const isActive = activeTab === item.tab;
-                const IconComp = item.icon;
-
-                return (
-                  <li key={item.tab}>
-                    <button
-                      onClick={() => handleNavigate(item.tab)}
-                      className={`group ${item.iconClass} relative flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-xs font-medium transition-all duration-200 ${
-                        isActive
-                          ? "border border-[var(--champagne)]/40 bg-[var(--sidebar-active-bg)] text-[var(--sidebar-active-text)] shadow-sm font-semibold"
-                          : "text-[var(--sidebar-muted)] hover:bg-white/10 hover:text-white"
-                      }`}
-                    >
-                      {/* Small Champagne Gold active indicator */}
-                      {isActive && (
-                        <span className="absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-r bg-[var(--champagne)] shadow-[0_0_8px_var(--champagne)]" />
-                      )}
-
-                      <IconComp
-                        className={`size-4 transition-transform duration-300 group-hover:scale-110 ${
-                          isActive ? "text-[var(--champagne)]" : "text-[var(--sidebar-muted)]"
-                        }`}
-                        strokeWidth={1.75}
-                      />
-
-                      <span className="truncate">{item.label}</span>
-
-                      {item.badge && (
-                        <span
-                          className={`ml-auto rounded-full px-1.5 py-0.2 font-mono text-[9px] font-semibold ${
-                            isActive
-                              ? "bg-[var(--champagne)] text-black"
-                              : "bg-white/10 text-[var(--sidebar-muted)]"
-                          }`}
-                        >
-                          <CasinoSlotNumber value={item.badge} interactive={false} />
-                        </span>
-                      )}
-                    </button>
-                  </li>
-                );
-              })}
-            </ul>
-          </nav>
-
-          {/* User Persona Switcher & Status */}
-          <div className="border-t border-[var(--sidebar-border)] pt-4">
-            <div className="mb-3.5 flex items-center justify-between text-[11px] text-[var(--sidebar-muted)]">
-              <div className="flex items-center gap-2">
-                <span className="size-1.5 rounded-full bg-[var(--champagne)] shadow-[0_0_6px_var(--champagne)]" />
-                <span>RRMS Online</span>
-              </div>
-              <button
-                onClick={() => setPersonaModalOpen(true)}
-                className="text-[10px] text-[var(--champagne)] underline hover:text-white"
-              >
-                Switch Role
-              </button>
-            </div>
-
-            <div
-              onClick={() => setPersonaModalOpen(true)}
-              title="Click to switch persona (Manager, Staff, Guest)"
-              className="flex cursor-pointer items-center gap-3 rounded-lg border border-transparent p-2 transition-all hover:border-[var(--champagne)]/40 hover:bg-white/10"
-            >
-              <span className="flex size-9 items-center justify-center rounded-full border border-[var(--champagne)]/50 bg-[var(--champagne)] font-display text-xs font-bold text-black shadow-sm">
-                {currentAccount.avatar}
-              </span>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-xs font-semibold text-white">
-                  {currentAccount.name}
-                </p>
-                <p className="truncate text-[10px] text-[var(--champagne)]">
-                  {currentAccount.role}
-                </p>
-              </div>
-              <KeyRound className="size-3.5 text-[var(--sidebar-muted)]" />
-            </div>
-          </div>
-        </aside>
+        {/* SECTION 6: UNTITLED UI INSPIRED LUXURY RESORT SIDEBAR */}
+        <ResortSidebar
+          activeTab={activeTab}
+          onNavigate={handleNavigate}
+          currentAccount={currentAccount}
+          onOpenPersonaModal={() => setPersonaModalOpen(true)}
+          allowedTabs={allowedTabs}
+          bookingsCount={bookings.length}
+          openTicketsCount={supportTickets.filter((t) => t.status === "Open").length}
+          pendingServicesCount={serviceBookings.filter((s) => s.status !== "Completed").length}
+          pendingTasksCount={tasks.filter((t) => t.status === "Pending").length}
+          dirtyRoomsCount={rooms.filter((r) => r.status === "Dirty" || r.status === "Housekeeping").length}
+          readyRoomsCount={rooms.filter((r) => r.status === "Ready").length}
+          vaultItemsCount={lostAndFound.filter((l) => l.status === "Stored in Vault").length}
+          reviewsCount={reviews.length}
+          menuOpen={menuOpen}
+          onCloseMenu={() => setMenuOpen(false)}
+          isCollapsed={sidebarCollapsed}
+          onToggleCollapse={() => setSidebarCollapsed(!sidebarCollapsed)}
+          onOpenNewTaskModal={() => {
+            handleNavigate("operations");
+          }}
+          onOpenNewTicketModal={() => {
+            handleNavigate("people");
+          }}
+        />
 
         {/* Main Container */}
-        <div className="relative z-10 lg:pl-64">
+        <div
+          className={`relative z-10 transition-all duration-300 ease-in-out ${
+            sidebarCollapsed ? "lg:pl-[72px]" : "lg:pl-64"
+          }`}
+        >
           {/* Header */}
           <header className="resort-header sticky top-0 z-30 flex h-16 items-center justify-between gap-3 border-b border-border bg-card/95 px-4 shadow-sm backdrop-blur-none sm:px-6">
             <div className="flex items-center gap-3">
