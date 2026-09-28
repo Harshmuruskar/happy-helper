@@ -57,13 +57,10 @@ import { SettingsView } from "@/components/resort/SettingsView";
 import { NewBookingModal } from "@/components/resort/NewBookingModal";
 import { BookingDetailModal } from "@/components/resort/BookingDetailModal";
 import { NotificationsDrawer } from "@/components/resort/NotificationsDrawer";
-<<<<<<< HEAD
 import { CasinoProvider, CasinoRollButton } from "@/components/resort/CasinoControl";
 import { CasinoSlotNumber } from "@/components/resort/CasinoSlotNumber";
-=======
 import sidebarGoldenSunrise from "@/assets/sidebar-golden-sunrise.jpg";
 import sidebarLuxurySunset from "@/assets/sidebar-luxury-sunset.jpg";
->>>>>>> e7028c7c7c2911c724cb9409c012aafc3aff434f
 
 export const Route = createFileRoute("/")({
   head: () => ({
