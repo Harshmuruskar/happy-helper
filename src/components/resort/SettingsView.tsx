@@ -5,7 +5,6 @@ import {
   Compass,
   Globe,
   Lock,
-  MoonStar,
   Save,
   ShieldCheck,
   Sparkles,
@@ -20,15 +19,11 @@ import { useCasino } from "./CasinoControl";
 interface SettingsViewProps {
   currentRole: string;
   onChangeRole: (role: string) => void;
-  theme: "day" | "night";
-  onToggleTheme: () => void;
 }
 
 export function SettingsView({
   currentRole,
   onChangeRole,
-  theme,
-  onToggleTheme,
 }: SettingsViewProps) {
   const [saveSuccess, setSaveSuccess] = useState(false);
   const { spinKey } = useCasino();
@@ -175,13 +170,13 @@ export function SettingsView({
 
       {/* Resort Atmosphere Theme & Policies */}
       <section className="grid gap-6 md:grid-cols-2">
-        {/* Theme Settings */}
+        {/* Resort Atmosphere Palette */}
         <article className="resort-card p-6">
           <h2 className="font-display text-xl font-semibold text-foreground">
-            Resort Atmosphere Theme
+            Resort Signature Atmosphere
           </h2>
           <p className="mt-1 text-xs text-muted-foreground">
-            Atmospheric day to evening transition (700–1200ms smooth visual shift)
+            Permanent 5-star Golden Sunrise coastal luxury aesthetic
           </p>
 
           <div className="mt-5 space-y-4">
@@ -189,39 +184,21 @@ export function SettingsView({
               <div className="flex items-center gap-3">
                 <SunMedium className="size-5 text-[var(--champagne)]" />
                 <div>
-                  <p className="font-medium text-foreground">Golden Sunrise (Day)</p>
+                  <p className="font-medium text-foreground">Golden Sunrise (Signature)</p>
                   <p className="text-xs text-muted-foreground">
-                    Ivory + Deep Ocean + Sage + Champagne
+                    Ivory + Deep Ocean + Sage + Champagne Gold
                   </p>
                 </div>
               </div>
-              <Badge variant={theme === "day" ? "gold" : "outline"}>
-                {theme === "day" ? "Active" : "Inactive"}
-              </Badge>
+              <Badge variant="gold">Active Standard</Badge>
             </div>
 
-            <div className="flex items-center justify-between rounded-lg border border-border bg-accent/40 p-3.5">
-              <div className="flex items-center gap-3">
-                <MoonStar className="size-5 text-[var(--sunset)]" />
-                <div>
-                  <p className="font-medium text-foreground">Luxury Sunset (Night)</p>
-                  <p className="text-xs text-muted-foreground">
-                    Midnight Navy + Deep Blue + Sunset Orange
-                  </p>
-                </div>
-              </div>
-              <Badge variant={theme === "night" ? "sunset" : "outline"}>
-                {theme === "night" ? "Active" : "Inactive"}
-              </Badge>
+            <div className="rounded-lg border border-border/60 bg-muted/30 p-3.5 text-xs text-muted-foreground space-y-1.5">
+              <p className="font-semibold text-foreground">Aesthetic Standard</p>
+              <p className="leading-relaxed">
+                Palm Grove operates exclusively on the radiant Golden Sunrise scheme with warm teak accents, ocean ivory surfaces, and bespoke champagne metadata.
+              </p>
             </div>
-
-            <Button
-              variant="outline"
-              onClick={onToggleTheme}
-              className="w-full border-border text-xs"
-            >
-              Toggle Atmosphere ({theme === "day" ? "Switch to Night" : "Switch to Day"})
-            </Button>
           </div>
         </article>
 

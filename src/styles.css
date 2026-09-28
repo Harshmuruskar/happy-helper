@@ -2,8 +2,6 @@
 @source "../src";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
-
 @theme inline {
   --radius-sm: calc(var(--radius) - 2px);
   --radius-md: var(--radius);
@@ -61,7 +59,7 @@
 :root {
   --radius: 0.875rem;
 
-  /* DAY — "GOLDEN SUNRISE" (Exact specified palette) */
+  /* "GOLDEN SUNRISE" (Exact specified palette) */
   --background: #F8F6F0;
   --foreground: #24313A;
   --card: #FFFFFF;
@@ -93,7 +91,7 @@
   --input: #E7DED0;
   --ring: #C9A45C;
 
-  /* Sidebar Day: Deep Ocean #173B4D */
+  /* Sidebar: Deep Ocean #173B4D */
   --sidebar-bg: #173B4D;
   --sidebar-foreground: #F8F6F0;
   --sidebar-muted: #A9C9D8;
@@ -118,70 +116,10 @@
   color-scheme: light;
 }
 
-.dark {
-  /* NIGHT — "LUXURY SUNSET" (Exact specified palette) */
-  --background: #101B29;
-  --foreground: #F5F0E6;
-  --card: #203646;
-  --card-foreground: #F5F0E6;
-  --popover: #203646;
-  --popover-foreground: #F5F0E6;
-
-  --ocean: #172A3A;
-  --sage: #597468;
-  --champagne: #D4AF68;
-  --apricot: #D9794A;
-  --sky: #AAB5B7;
-  --sunset: #D9794A;
-  --copper: #B86F63;
-  --deep-sage: #597468;
-  --navy: #101B29;
-
-  --primary: #D4AF68; /* Champagne */
-  --primary-foreground: #101B29; /* Deep Navy */
-  --secondary: #172A3A;
-  --secondary-foreground: #F5F0E6;
-  --muted: #172A3A;
-  --muted-foreground: #AAB5B7;
-  --accent: #274154;
-  --accent-foreground: #F5F0E6;
-  --destructive: #D9794A;
-  --destructive-foreground: #FFFFFF;
-  --border: #314553;
-  --input: #314553;
-  --ring: #D4AF68;
-
-  /* Sidebar Night: Deep Navy #101B29 */
-  --sidebar-bg: #101B29;
-  --sidebar-foreground: #F5F0E6;
-  --sidebar-muted: #AAB5B7;
-  --sidebar-border: #314553;
-  --sidebar-active-bg: rgba(212, 175, 104, 0.15);
-  --sidebar-active-text: #D4AF68;
-  --sidebar-image-overlay: linear-gradient(180deg, rgba(16, 27, 41, 0.34) 0%, rgba(23, 42, 58, 0.42) 48%, rgba(16, 27, 41, 0.58) 100%);
-
-  /* Module Accents Night */
-  --accent-rooms: #597468;
-  --accent-restaurant: #D9794A;
-  --accent-pool: #AAB5B7;
-  --accent-spa: #597468;
-  --accent-finance: #D4AF68;
-  --accent-bookings: #D4AF68;
-
-  --gold-soft: rgba(212, 175, 104, 0.16);
-  --glow-gold: 0 0 0 3px rgba(212, 175, 104, 0.25);
-  --shadow-panel: 0 8px 24px -3px rgba(0, 0, 0, 0.4), 0 2px 6px -1px rgba(0, 0, 0, 0.28);
-  --shadow-hover: 0 16px 36px -4px rgba(0, 0, 0, 0.55), 0 4px 12px -2px rgba(0, 0, 0, 0.35);
-
-  color-scheme: dark;
-}
-
 @layer base {
   * { border-color: var(--border); }
   html {
     background: var(--background);
-    transition: background-color 950ms cubic-bezier(0.4, 0, 0.2, 1),
-                color 950ms cubic-bezier(0.4, 0, 0.2, 1);
   }
   body {
     margin: 0;
@@ -353,22 +291,9 @@
   opacity: 1;
 }
 
-.sidebar-atmosphere-night {
-  opacity: 0;
-}
-
-.dark .sidebar-atmosphere-day {
-  opacity: 0;
-}
-
-.dark .sidebar-atmosphere-night {
-  opacity: 1;
-}
-
 .sidebar-atmosphere-overlay {
   z-index: 1;
   background: var(--sidebar-image-overlay);
-  transition: background 950ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .resort-sidebar:hover .sidebar-atmosphere {
@@ -448,30 +373,18 @@
   transform: scale(1.03);
 }
 
-/* Atmosphere Gradients - subtle sunrise glow / sunset glow */
+/* Atmosphere Gradients - subtle sunrise glow */
 .resort-horizon-glow {
   pointer-events: none;
   position: fixed;
   inset: 0;
   z-index: 0;
   opacity: 0.9;
-  transition: opacity 950ms ease, background 950ms ease;
-}
-
-/* Day subtle ambient warmth */
-:root .resort-horizon-glow {
   background: radial-gradient(1100px circle at 90% 5%, rgba(242, 184, 128, 0.14) 0%, transparent 60%),
               radial-gradient(800px circle at 5% 35%, rgba(169, 201, 216, 0.12) 0%, transparent 50%);
 }
 
-/* Night subtle sunset warmth */
-.dark .resort-horizon-glow {
-  background: radial-gradient(1100px circle at 90% 8%, rgba(217, 121, 74, 0.15) 0%, transparent 60%),
-              radial-gradient(800px circle at 10% 45%, rgba(184, 111, 99, 0.12) 0%, transparent 50%),
-              radial-gradient(900px circle at 50% 100%, rgba(89, 116, 104, 0.1) 0%, transparent 60%);
-}
-
-/* Subtle architectural watermark pattern for Day & Night */
+/* Subtle architectural watermark pattern */
 .resort-pattern {
   pointer-events: none;
   position: fixed;
@@ -479,9 +392,6 @@
   z-index: 0;
   background-image: radial-gradient(rgba(23, 59, 77, 0.02) 1px, transparent 0);
   background-size: 32px 32px;
-}
-.dark .resort-pattern {
-  background-image: radial-gradient(rgba(212, 175, 104, 0.035) 1px, transparent 0);
 }
 
 /* Count-up animation helper */

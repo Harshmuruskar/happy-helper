@@ -37,7 +37,6 @@ import resortDay from "@/assets/coastal-resort-day.jpg";
 interface DashboardViewProps {
   bookings: Booking[];
   rooms: Room[];
-  theme: "day" | "night";
   onNewBooking: () => void;
   onNavigateTab: (tab: any) => void;
   onSelectBooking: (booking: Booking) => void;
@@ -56,7 +55,6 @@ const revenueData = [
 export function DashboardView({
   bookings,
   rooms,
-  theme,
   onNewBooking,
   onNavigateTab,
   onSelectBooking,
@@ -129,7 +127,7 @@ export function DashboardView({
             </p>
           </div>
           <h1 className="mt-2 font-display text-3xl font-semibold leading-tight text-foreground sm:text-4xl">
-            Good {theme === "night" ? "evening" : "morning"},{" "}
+            Good morning,{" "}
             <em className="font-normal italic text-[var(--champagne)]">Amol.</em>
           </h1>
           <p className="mt-2 max-w-2xl text-sm leading-relaxed text-muted-foreground">
@@ -232,12 +230,12 @@ export function DashboardView({
                   <linearGradient id="champagneGlow" x1="0" y1="0" x2="0" y2="1">
                     <stop
                       offset="0%"
-                      stopColor={theme === "night" ? "#D4AF68" : "#C9A45C"}
+                      stopColor="#C9A45C"
                       stopOpacity={0.35}
                     />
                     <stop
                       offset="100%"
-                      stopColor={theme === "night" ? "#D4AF68" : "#C9A45C"}
+                      stopColor="#C9A45C"
                       stopOpacity={0.0}
                     />
                   </linearGradient>
@@ -282,7 +280,7 @@ export function DashboardView({
                 <Area
                   type="monotone"
                   dataKey="thisYear"
-                  stroke={theme === "night" ? "#D4AF68" : "#C9A45C"}
+                  stroke="#C9A45C"
                   strokeWidth={2.5}
                   fill="url(#champagneGlow)"
                   name="Current Season"

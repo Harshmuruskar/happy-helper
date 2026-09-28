@@ -11,13 +11,11 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
-  MoonStar,
   Plus,
   Search,
   Settings,
   Shield,
   Sparkles,
-  SunMedium,
   TrendingUp,
   Users,
   UtensilsCrossed,
@@ -60,7 +58,6 @@ import { NotificationsDrawer } from "@/components/resort/NotificationsDrawer";
 import { CasinoProvider, CasinoRollButton } from "@/components/resort/CasinoControl";
 import { CasinoSlotNumber } from "@/components/resort/CasinoSlotNumber";
 import sidebarGoldenSunrise from "@/assets/sidebar-golden-sunrise.jpg";
-import sidebarLuxurySunset from "@/assets/sidebar-luxury-sunset.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -87,8 +84,6 @@ export const Route = createFileRoute("/")({
 export function ResortApp() {
   const [activeTab, setActiveTab] = useState<ModuleTab>("dashboard");
   const [menuOpen, setMenuOpen] = useState(false);
-  const [theme, setTheme] = useState<"day" | "night">("day");
-  const [themeReady, setThemeReady] = useState(false);
   const [currentRole, setCurrentRole] = useState("General Manager");
 
   // Resort State
@@ -105,13 +100,10 @@ export function ResortApp() {
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  // Initialize theme from localStorage or system preference
+  // Ensure clean Golden Sunrise palette without dark mode
   useEffect(() => {
-    const savedTheme = window.localStorage.getItem("palm-grove-theme");
-    const initialTheme = savedTheme === "night" ? "night" : "day";
-    setTheme(initialTheme);
-    document.documentElement.classList.toggle("dark", initialTheme === "night");
-    setThemeReady(true);
+    document.documentElement.classList.remove("dark");
+    window.localStorage.removeItem("palm-grove-theme");
   }, []);
 
   const showToast = (msg: string) => {
@@ -119,19 +111,6 @@ export function ResortApp() {
     setTimeout(() => {
       setToastMessage(null);
     }, 3500);
-  };
-
-  // Day ↔ Night 950ms Smooth Atmosphere Transition
-  const toggleTheme = () => {
-    const nextTheme = theme === "day" ? "night" : "day";
-    setTheme(nextTheme);
-    document.documentElement.classList.toggle("dark", nextTheme === "night");
-    window.localStorage.setItem("palm-grove-theme", nextTheme);
-    showToast(
-      nextTheme === "night"
-        ? "Atmosphere transitioned to Luxury Sunset (Night)"
-        : "Atmosphere transitioned to Golden Sunrise (Day)"
-    );
   };
 
   // Navigation handlers
@@ -287,14 +266,6 @@ export function ResortApp() {
           aria-hidden="true"
           className="sidebar-atmosphere sidebar-atmosphere-day"
         />
-        <img
-          src={sidebarLuxurySunset}
-          alt=""
-          width={768}
-          height={1536}
-          aria-hidden="true"
-          className="sidebar-atmosphere sidebar-atmosphere-night"
-        />
         <div className="sidebar-atmosphere-overlay" aria-hidden="true" />
 
         {/* Brand Header */}
@@ -438,31 +409,6 @@ export function ResortApp() {
             {/* Casino Reels Roll Button */}
             <CasinoRollButton />
 
-            {/* Day ↔ Night Atmosphere Switch (700-1200ms transition) */}
-            <Button
-              variant="outline"
-              size="icon"
-              onClick={toggleTheme}
-              disabled={!themeReady}
-              title={theme === "day" ? "Switch to Luxury Sunset (Night)" : "Switch to Golden Sunrise (Day)"}
-              className="theme-toggle relative size-9 border-[var(--champagne)]/50 bg-background text-[var(--champagne)] shadow-sm hover:bg-accent"
-            >
-              <SunMedium
-                className={`absolute size-4 transition-all duration-700 ${
-                  theme === "day"
-                    ? "rotate-0 scale-100 opacity-100"
-                    : "rotate-90 scale-50 opacity-0"
-                }`}
-              />
-              <MoonStar
-                className={`absolute size-4 transition-all duration-700 ${
-                  theme === "night"
-                    ? "rotate-0 scale-100 opacity-100"
-                    : "-rotate-90 scale-50 opacity-0"
-                }`}
-              />
-            </Button>
-
             {/* Notifications Bell with shake animation & badge */}
             <Button
               variant="ghost"
@@ -496,7 +442,6 @@ export function ResortApp() {
             <DashboardView
               bookings={bookings}
               rooms={rooms}
-              theme={theme}
               onNewBooking={() => setNewBookingModalOpen(true)}
               onNavigateTab={handleNavigate}
               onSelectBooking={(bk) => setSelectedBooking(bk)}
@@ -555,8 +500,6 @@ export function ResortApp() {
                 setCurrentRole(newRole);
                 showToast(`Role context switched to: ${newRole}`);
               }}
-              theme={theme}
-              onToggleTheme={toggleTheme}
             />
           )}
         </main>
