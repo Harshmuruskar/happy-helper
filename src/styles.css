@@ -265,6 +265,47 @@
   color: var(--foreground);
 }
 
+.resort-metric-strip > * {
+  border-bottom: 1px solid var(--border);
+}
+
+.resort-table thead {
+  background: color-mix(in oklab, var(--accent) 58%, transparent);
+}
+
+.resort-table th {
+  letter-spacing: 0.1em;
+}
+
+.resort-table td,
+.resort-table th {
+  vertical-align: middle;
+}
+
+@media (min-width: 640px) {
+  .resort-metric-strip > * {
+    border-right: 1px solid var(--border);
+  }
+
+  .resort-metric-strip > *:nth-child(2n) {
+    border-right: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .resort-metric-strip > * {
+    border-bottom: 0;
+  }
+
+  .resort-metric-strip > *:nth-child(2n) {
+    border-right: 1px solid var(--border);
+  }
+
+  .resort-metric-strip > *:last-child {
+    border-right: 0;
+  }
+}
+
 .resort-kicker {
   font-size: 0.625rem;
   font-weight: 700;

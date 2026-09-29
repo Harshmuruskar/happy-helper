@@ -116,9 +116,9 @@ export function DashboardView({
   const dateStr = `${weekdays[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]}`;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-7">
       {/* Top Banner / Welcome */}
-      <section className="rise relative flex flex-wrap items-end justify-between gap-5 border-b border-border/80 pb-6">
+      <section className="rise relative flex flex-wrap items-end justify-between gap-5 border-b border-border pb-5">
         <div>
           <div className="flex items-center gap-2">
             <span className="size-2 rounded-full bg-[var(--champagne)] shadow-[var(--glow-gold)]" />
@@ -126,7 +126,7 @@ export function DashboardView({
               {dateStr} · 5-Star Luxury Resort Operations
             </p>
           </div>
-          <h1 className="mt-2 font-display text-3xl font-semibold leading-tight text-foreground sm:text-4xl">
+          <h1 className="mt-2 font-display text-3xl font-medium leading-tight text-foreground sm:text-4xl">
             Good morning,{" "}
             <em className="font-normal italic text-[var(--champagne)]">Amol.</em>
           </h1>
@@ -158,30 +158,30 @@ export function DashboardView({
       </section>
 
       {/* KPI Cards */}
-      <section className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <section className="resort-metric-strip grid overflow-hidden border-y border-border bg-card sm:grid-cols-2 lg:grid-cols-4">
         {kpis.map((kpi, idx) => (
           <article
             key={kpi.label}
-            className="resort-card rise group relative overflow-hidden p-5"
+            className="rise group relative min-h-36 p-5"
             style={{ animationDelay: `${idx * 80}ms` }}
           >
             <div className="flex items-start justify-between">
               <div>
-                <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                <p className="resort-kicker">
                   {kpi.label}
                 </p>
-                <div className="mt-2.5 font-display text-3xl font-semibold text-foreground">
+                <div className="mt-3 font-display text-3xl font-medium text-foreground">
                   <CasinoSlotNumber value={kpi.value} spinTrigger={spinKey} mode="jackpot" />
                 </div>
               </div>
               <div
-                className={`flex size-10 items-center justify-center rounded-lg border border-border bg-accent/60 ${kpi.accent} transition-transform duration-300 group-hover:scale-110`}
+                className={`flex size-9 items-center justify-center border border-border bg-background ${kpi.accent}`}
               >
                 <kpi.icon className="size-5" strokeWidth={1.75} />
               </div>
             </div>
 
-            <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-3 text-xs">
+            <div className="mt-5 flex items-center justify-between border-t border-border pt-3 text-xs">
               <span className="flex items-center gap-1 font-medium text-[var(--sage)]">
                 <ArrowUpRight className="size-3.5" />
                 {kpi.deltaPrefix && <span>{kpi.deltaPrefix}</span>}
@@ -197,7 +197,7 @@ export function DashboardView({
       {/* Main Grid: Revenue Chart + Property Live Spotlight */}
       <section className="grid gap-6 lg:grid-cols-12">
         {/* Revenue Chart */}
-        <article className="resort-card p-6 lg:col-span-8">
+        <article className="resort-panel p-5 lg:col-span-8 lg:p-6">
           <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/70 pb-4">
             <div>
               <div className="flex items-center gap-2">
@@ -302,7 +302,7 @@ export function DashboardView({
 
         {/* Live Property Showcase & Marine Conditions */}
         <div className="space-y-4 lg:col-span-4">
-          <article className="resort-card resort-photo-card relative overflow-hidden">
+          <article className="resort-panel resort-photo-card relative overflow-hidden">
             <div className="relative h-44 w-full overflow-hidden">
               <img
                 src={villaPool}
@@ -344,7 +344,7 @@ export function DashboardView({
           </article>
 
           {/* Marine & Beach Club Widget */}
-          <article className="resort-card p-4">
+          <article className="border-y border-border bg-card p-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Waves className="size-4 text-[var(--sky)]" />
@@ -384,7 +384,7 @@ export function DashboardView({
       {/* Secondary Grid: Cabin/Suite Activity + Recent Bookings Table */}
       <section className="grid gap-6 lg:grid-cols-12">
         {/* Recent Stays & Bookings */}
-        <article className="resort-card p-6 lg:col-span-7">
+        <article className="resort-panel p-5 lg:col-span-7 lg:p-6">
           <div className="flex items-center justify-between border-b border-border/70 pb-4">
             <div>
               <h2 className="font-display text-xl font-semibold text-foreground">
@@ -456,7 +456,7 @@ export function DashboardView({
         </article>
 
         {/* Live Cabin & Suite Operations */}
-        <article className="resort-card p-6 lg:col-span-5">
+        <article className="resort-panel p-5 lg:col-span-5 lg:p-6">
           <div className="flex items-center justify-between border-b border-border/70 pb-4">
             <div>
               <h2 className="font-display text-xl font-semibold text-foreground">
