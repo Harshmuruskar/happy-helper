@@ -10,3 +10,5 @@
 - [ ] Remove blur and glass effects in favor of crisp five-star resort surfaces
 - [ ] Verify the refreshed desktop and mobile experience in both themes
 - [x] Add distinct, readable sunrise and softly lit sunset sidebar backgrounds
+- [x] Replace repetitive card-heavy layouts with a bespoke boutique command-center system
+- [x] Apply the Coastal Mineral palette and Sora/Manrope typography

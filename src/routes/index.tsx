@@ -538,7 +538,7 @@ export function ResortApp() {
           }`}
         >
           {/* Header */}
-          <header className="resort-header sticky top-0 z-30 flex h-16 items-center justify-between gap-3 border-b border-border bg-card/95 px-4 shadow-sm backdrop-blur-none sm:px-6">
+          <header className="resort-header sticky top-0 z-30 flex h-14 items-center justify-between gap-3 border-b border-border bg-card px-4 sm:px-6">
             <div className="flex items-center gap-3">
               <Button
                 variant="ghost"
@@ -562,7 +562,7 @@ export function ResortApp() {
             {/* Right Header Controls */}
             <div className="flex items-center gap-2.5 text-xs text-muted-foreground">
               {/* Marine & Weather Pill */}
-              <div className="hidden items-center gap-2 rounded-full border border-border bg-accent/40 px-3 py-1.5 text-xs sm:flex">
+              <div className="hidden items-center gap-2 border-l border-border px-3 py-1.5 text-xs sm:flex">
                 <CloudFog className="size-4 text-[var(--sky)]" />
                 <span className="font-medium text-foreground">
                   <CasinoSlotNumber value="24" className="font-semibold text-[var(--champagne)]" />°C · Ocean Calm
@@ -624,7 +624,7 @@ export function ResortApp() {
           </header>
 
           {/* Main Content Area */}
-          <main className="mx-auto max-w-[1500px] px-4 py-6 sm:px-6 lg:px-8">
+          <main className="mx-auto max-w-[1560px] px-4 py-5 sm:px-6 lg:px-8 lg:py-7">
             {/* Dashboard / Guest Sanctuary */}
             {activeTab === "dashboard" && (
               currentAccount.role === "Guest" ? (

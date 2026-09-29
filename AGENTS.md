@@ -10,3 +10,4 @@
 <!-- LOVABLE:END -->
 
 - The interface uses semantic Golden Sunrise and Luxury Sunset tokens with crisp solid surfaces; this keeps both resort themes consistent and avoids forbidden glassmorphism.
+- Use a shared flat command-center surface system with six-pixel corners, divider-led grouping, and no hover lift; this keeps every resort module cohesive and avoids template-like card grids.

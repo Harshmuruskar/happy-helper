@@ -137,9 +137,8 @@ export function ResortSidebar({
 
   return (
     <aside
-      className={`resort-sidebar fixed inset-y-0 left-0 z-40 flex flex-col border-r border-border bg-sidebar text-foreground transition-all duration-300 ease-in-out lg:translate-x-0 overflow-hidden ${
-        isCollapsed ? "w-[72px]" : "w-64"
-      } ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
+      className={`resort-sidebar fixed inset-y-0 left-0 z-40 flex flex-col border-r border-border bg-sidebar text-foreground transition-all duration-300 ease-in-out lg:translate-x-0 overflow-hidden ${isCollapsed ? "w-[72px]" : "w-64"
+        } ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
     >
       {/* BACKGROUND ATMOSPHERE */}
       <div className="sidebar-atmosphere pointer-events-none absolute inset-0 z-0">
@@ -194,7 +193,7 @@ export function ResortSidebar({
             <div
               onClick={onOpenPersonaModal}
               title="Switch Persona / Workspace"
-              className="group flex cursor-pointer items-center gap-2.5 rounded-lg p-1.5 transition-colors hover:bg-muted/50"
+              className="group flex cursor-pointer items-center gap-2.5 border-l-2 border-[var(--champagne)] p-1.5 pl-2.5 transition-colors hover:bg-muted/50"
             >
               <div className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-[var(--ocean)] text-[var(--champagne)] shadow-xs ring-1 ring-border/50">
                 <Waves className="size-5" />
@@ -218,7 +217,7 @@ export function ResortSidebar({
             {/* Quick Switch Persona Pill (matches "Switch stores" in inspiration) */}
             <button
               onClick={onOpenPersonaModal}
-              className="mt-2.5 flex w-full items-center justify-between gap-1.5 rounded-lg border border-border/80 bg-muted/30 px-2.5 py-1.5 text-xs font-medium text-foreground transition-all hover:border-[var(--champagne)]/60 hover:bg-muted/70"
+              className="mt-2.5 flex w-full items-center justify-between gap-1.5 border-y border-border/80 bg-muted/30 px-2.5 py-1.5 text-xs font-medium text-foreground transition-all hover:bg-muted/70"
             >
               <div className="flex items-center gap-2 truncate">
                 <ArrowLeftRight className="size-3.5 text-muted-foreground shrink-0" />
@@ -246,11 +245,10 @@ export function ResortSidebar({
                   key={item.tab}
                   onClick={() => onNavigate(item.tab)}
                   title={`${item.label}${item.badge ? ` (${item.badge})` : ""}`}
-                  className={`group relative flex size-10 mx-auto items-center justify-center rounded-lg transition-all ${
-                    isActive
+                  className={`group relative flex size-10 mx-auto items-center justify-center rounded-lg transition-all ${isActive
                       ? "bg-[var(--gold-soft)]/35 text-[var(--ocean)] shadow-2xs ring-1 ring-[var(--champagne)]/40 font-semibold"
                       : "text-muted-foreground hover:bg-muted/60 hover:text-foreground"
-                  }`}
+                    }`}
                 >
                   <Icon className="size-4 shrink-0" />
                   {item.badge && (
@@ -266,25 +264,22 @@ export function ResortSidebar({
               <button
                 key={item.tab}
                 onClick={() => onNavigate(item.tab)}
-                className={`group flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-xs font-medium transition-all ${
-                  isActive
-                    ? "bg-[var(--gold-soft)]/30 text-[var(--ocean)] font-semibold border border-[var(--champagne)]/30 shadow-2xs"
-                    : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-                }`}
+                className={`group flex w-full items-center gap-3 border-l-2 px-2.5 py-2 text-xs font-medium transition-all ${isActive
+                    ? "border-[var(--champagne)] bg-[var(--gold-soft)]/30 text-[var(--ocean)] font-semibold"
+                    : "border-transparent text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                  }`}
               >
                 <Icon
-                  className={`size-4 shrink-0 transition-colors ${
-                    isActive ? "text-[var(--champagne)]" : "text-muted-foreground group-hover:text-foreground"
-                  }`}
+                  className={`size-4 shrink-0 transition-colors ${isActive ? "text-[var(--champagne)]" : "text-muted-foreground group-hover:text-foreground"
+                    }`}
                 />
                 <span className="truncate">{item.label}</span>
                 {item.badge && (
                   <span
-                    className={`ml-auto rounded-full px-1.5 py-0.2 font-mono text-[9px] font-semibold ${
-                      isActive
+                    className={`ml-auto rounded-full px-1.5 py-0.2 font-mono text-[9px] font-semibold ${isActive
                         ? "bg-[var(--ocean)] text-[var(--champagne)]"
                         : "bg-muted text-muted-foreground"
-                    }`}
+                      }`}
                   >
                     <CasinoSlotNumber value={item.badge} interactive={false} />
                   </span>
@@ -444,16 +439,14 @@ export function ResortSidebar({
                 <button
                   key={item.tab}
                   onClick={() => onNavigate(item.tab)}
-                  className={`group flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-xs font-medium transition-all ${
-                    isActive
-                      ? "bg-[var(--gold-soft)]/30 text-[var(--ocean)] font-semibold border border-[var(--champagne)]/30 shadow-2xs"
-                      : "text-muted-foreground hover:bg-muted/50 hover:text-foreground"
-                  }`}
+                  className={`group flex w-full items-center gap-3 border-l-2 px-2.5 py-2 text-xs font-medium transition-all ${isActive
+                      ? "border-[var(--champagne)] bg-[var(--gold-soft)]/30 text-[var(--ocean)] font-semibold"
+                      : "border-transparent text-muted-foreground hover:bg-muted/50 hover:text-foreground"
+                    }`}
                 >
                   <Icon
-                    className={`size-4 shrink-0 ${
-                      isActive ? "text-[var(--champagne)]" : "text-muted-foreground group-hover:text-foreground"
-                    }`}
+                    className={`size-4 shrink-0 ${isActive ? "text-[var(--champagne)]" : "text-muted-foreground group-hover:text-foreground"
+                      }`}
                   />
                   <span className="truncate">{item.label}</span>
                   {item.badge && (

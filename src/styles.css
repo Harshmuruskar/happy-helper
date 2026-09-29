@@ -52,24 +52,24 @@
   --color-sidebar-muted: var(--sidebar-muted);
   --color-sidebar-border: var(--sidebar-border);
 
-  --font-display: "Cormorant Garamond", "Playfair Display", Georgia, serif;
-  --font-body: "Outfit", "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
-  --radius: 0.875rem;
+  --radius: 0.375rem;
 
-  /* "GOLDEN SUNRISE" - Updated to Warm Editorial Sand */
-  --background: #F4F1E6;
-  --foreground: #2C2B29;
-  --card: #F4F1E6;
-  --card-foreground: #2C2B29;
-  --popover: #F4F1E6;
-  --popover-foreground: #2C2B29;
+  /* "GOLDEN SUNRISE" (Exact specified palette) */
+  --background: #F4F1E9;
+  --foreground: #183843;
+  --card: #FFFFFF;
+  --card-foreground: #24313A;
+  --popover: #FFFFFF;
+  --popover-foreground: #24313A;
 
-  --ocean: #173B4D;
-  --sage: #718B7A;
-  --champagne: #C9A45C;
+  --ocean: #183843;
+  --sage: #6F8875;
+  --champagne: #C49B51;
   --apricot: #F2B880;
   --sky: #A9C9D8;
   --sunset: #D9794A;
@@ -77,19 +77,21 @@
   --deep-sage: #597468;
   --navy: #101B29;
 
-  --primary: #173B4D; /* Deep Ocean */
-  --primary-foreground: #F8F6F0;
-  --secondary: #718B7A; /* Sage */
+  --primary: #183843;
+  /* Coastal Mineral */
+  --primary-foreground: #F4F1E9;
+  --secondary: #6F8875;
+  /* Sage */
   --secondary-foreground: #FFFFFF;
-  --muted: #EFE9DE;
-  --muted-foreground: #78817D;
-  --accent: #F2ECE1;
-  --accent-foreground: #173B4D;
+  --muted: #E9E5DA;
+  --muted-foreground: #687671;
+  --accent: #ECE8DE;
+  --accent-foreground: #183843;
   --destructive: #C94C3F;
   --destructive-foreground: #FFFFFF;
-  --border: #E7DED0;
-  --input: #E7DED0;
-  --ring: #C9A45C;
+  --border: #D9D5CB;
+  --input: #D9D5CB;
+  --ring: #C49B51;
 
   /* Sidebar (Untitled UI Modern Light Inspiration + Golden Sunrise Palette) */
   --sidebar-bg: #FFFFFF;
@@ -116,10 +118,14 @@
 }
 
 @layer base {
-  * { border-color: var(--border); }
+  * {
+    border-color: var(--border);
+  }
+
   html {
     background: var(--background);
   }
+
   body {
     margin: 0;
     background: var(--background);
@@ -128,11 +134,17 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  h1, h2, h3, h4, h5, h6 {
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: var(--font-display);
-    letter-spacing: -0.02em;
-    font-weight: 400;
+    letter-spacing: 0;
   }
+
   ::selection {
     background: var(--champagne);
     color: #101B29;
@@ -158,7 +170,7 @@
   color: var(--foreground);
 }
 
-.editorial-heading em, 
+.editorial-heading em,
 .editorial-heading i {
   font-style: italic;
   font-weight: 400;
@@ -176,31 +188,75 @@
 
 /* Animations */
 @keyframes rise {
-  from { opacity: 0; transform: translateY(12px) scale(0.99); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
 }
 
 @keyframes sheen {
-  from { transform: translateX(-160%) skewX(-18deg); }
-  to { transform: translateX(300%) skewX(-18deg); }
+  from {
+    transform: translateX(-160%) skewX(-18deg);
+  }
+
+  to {
+    transform: translateX(300%) skewX(-18deg);
+  }
 }
 
 @keyframes bell-shake {
-  0%, 100% { transform: rotate(0); }
-  20% { transform: rotate(12deg); }
-  40% { transform: rotate(-10deg); }
-  60% { transform: rotate(6deg); }
-  80% { transform: rotate(-4deg); }
+
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+
+  20% {
+    transform: rotate(12deg);
+  }
+
+  40% {
+    transform: rotate(-10deg);
+  }
+
+  60% {
+    transform: rotate(6deg);
+  }
+
+  80% {
+    transform: rotate(-4deg);
+  }
 }
 
 @keyframes pulse-subtle {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.08); opacity: 0.85; }
+
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  50% {
+    transform: scale(1.08);
+    opacity: 0.85;
+  }
 }
 
 @keyframes horizon-glow {
-  0%, 100% { opacity: 0.8; }
-  50% { opacity: 1; }
+
+  0%,
+  100% {
+    opacity: 0.8;
+  }
+
+  50% {
+    opacity: 1;
+  }
 }
 
 /* Seamless Casino Slot Reel Number Animation — Pure Transparent & Inherited Typography */
@@ -271,33 +327,90 @@
 .resort-dialog,
 .resort-popover {
   transition: background-color 950ms cubic-bezier(0.4, 0, 0.2, 1),
-              border-color 950ms cubic-bezier(0.4, 0, 0.2, 1),
-              color 950ms cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 950ms cubic-bezier(0.4, 0, 0.2, 1);
+    border-color 950ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 950ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 950ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .resort-card {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  box-shadow: 0 4px 24px -6px rgba(0, 0, 0, 0.03);
-  transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
-              border-color 250ms ease,
-              box-shadow 250ms ease,
-              background-color 950ms ease;
+  box-shadow: none;
+  transition: border-color 180ms ease, background-color 180ms ease;
 }
 
 .resort-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--champagne);
-  box-shadow: var(--shadow-hover);
+  border-color: color-mix(in oklab, var(--ocean) 28%, var(--border));
+}
+
+.resort-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.resort-section-heading {
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.resort-metric-strip>* {
+  border-bottom: 1px solid var(--border);
+}
+
+.resort-table thead {
+  background: color-mix(in oklab, var(--accent) 58%, transparent);
+}
+
+.resort-table th {
+  letter-spacing: 0.1em;
+}
+
+.resort-table td,
+.resort-table th {
+  vertical-align: middle;
+}
+
+@media (min-width: 640px) {
+  .resort-metric-strip>* {
+    border-right: 1px solid var(--border);
+  }
+
+  .resort-metric-strip>*:nth-child(2n) {
+    border-right: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .resort-metric-strip>* {
+    border-bottom: 0;
+  }
+
+  .resort-metric-strip>*:nth-child(2n) {
+    border-right: 1px solid var(--border);
+  }
+
+  .resort-metric-strip>*:last-child {
+    border-right: 0;
+  }
+}
+
+.resort-kicker {
+  font-size: 0.625rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted-foreground);
 }
 
 /* Sidebar */
 .resort-sidebar {
   isolation: isolate;
   background: var(--sidebar-bg);
-  box-shadow: 1px 0 8px rgba(23, 59, 77, 0.04);
+  box-shadow: none;
 }
 
 /* Buttons with one-time shine on hover */
@@ -306,6 +419,7 @@
   overflow: hidden;
   transition: transform 180ms ease, box-shadow 220ms ease, background-color 950ms ease, color 950ms ease, border-color 950ms ease;
 }
+
 .premium-button::after {
   content: "";
   position: absolute;
@@ -316,14 +430,17 @@
   opacity: 0;
   pointer-events: none;
 }
+
 .premium-button:hover {
   transform: translateY(-1px);
   box-shadow: var(--shadow-panel);
 }
+
 .premium-button:hover::after {
   opacity: 1;
   animation: sheen 600ms ease both;
 }
+
 .premium-button:active {
   transform: translateY(0) scale(0.98);
 }
@@ -361,6 +478,7 @@
 .resort-table tr {
   transition: background-color 200ms ease;
 }
+
 .resort-table tbody tr:hover {
   background-color: var(--accent);
 }
@@ -369,6 +487,7 @@
 .resort-photo-card img {
   transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
 }
+
 .resort-photo-card:hover img {
   transform: scale(1.03);
 }
@@ -381,7 +500,7 @@
   z-index: 0;
   opacity: 0.9;
   background: radial-gradient(1100px circle at 90% 5%, rgba(242, 184, 128, 0.14) 0%, transparent 60%),
-              radial-gradient(800px circle at 5% 35%, rgba(169, 201, 216, 0.12) 0%, transparent 50%);
+    radial-gradient(800px circle at 5% 35%, rgba(169, 201, 216, 0.12) 0%, transparent 50%);
 }
 
 /* Subtle architectural watermark pattern */
@@ -401,7 +520,10 @@
 
 /* Accessibility */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+
+  *,
+  *::before,
+  *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
