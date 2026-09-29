@@ -52,20 +52,20 @@
   --color-sidebar-muted: var(--sidebar-muted);
   --color-sidebar-border: var(--sidebar-border);
 
-  --font-display: "Playfair Display", Georgia, serif;
-  --font-body: "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Cormorant Garamond", "Playfair Display", Georgia, serif;
+  --font-body: "Outfit", "Manrope", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
   --radius: 0.875rem;
 
-  /* "GOLDEN SUNRISE" (Exact specified palette) */
-  --background: #F8F6F0;
-  --foreground: #24313A;
-  --card: #FFFFFF;
-  --card-foreground: #24313A;
-  --popover: #FFFFFF;
-  --popover-foreground: #24313A;
+  /* "GOLDEN SUNRISE" - Updated to Warm Editorial Sand */
+  --background: #F4F1E6;
+  --foreground: #2C2B29;
+  --card: #F4F1E6;
+  --card-foreground: #2C2B29;
+  --popover: #F4F1E6;
+  --popover-foreground: #2C2B29;
 
   --ocean: #173B4D;
   --sage: #718B7A;
@@ -130,12 +130,48 @@
   }
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-display);
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
+    font-weight: 400;
   }
   ::selection {
     background: var(--champagne);
     color: #101B29;
   }
+}
+
+/* Editorial Typography Helpers */
+.editorial-kicker {
+  font-family: var(--font-body);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  font-weight: 600;
+  color: var(--sunset);
+}
+
+.editorial-heading {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  font-weight: 400;
+  color: var(--foreground);
+}
+
+.editorial-heading em, 
+.editorial-heading i {
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+.editorial-label {
+  font-family: var(--font-body);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 600;
+  color: var(--muted-foreground);
 }
 
 /* Animations */
@@ -244,7 +280,7 @@
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  box-shadow: var(--shadow-panel);
+  box-shadow: 0 4px 24px -6px rgba(0, 0, 0, 0.03);
   transition: transform 250ms cubic-bezier(0.22, 1, 0.36, 1),
               border-color 250ms ease,
               box-shadow 250ms ease,

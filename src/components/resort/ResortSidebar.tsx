@@ -137,32 +137,48 @@ export function ResortSidebar({
 
   return (
     <aside
-      className={`resort-sidebar fixed inset-y-0 left-0 z-40 flex flex-col border-r border-border bg-card text-foreground transition-all duration-300 ease-in-out lg:translate-x-0 ${
+      className={`resort-sidebar fixed inset-y-0 left-0 z-40 flex flex-col border-r border-border bg-sidebar text-foreground transition-all duration-300 ease-in-out lg:translate-x-0 overflow-hidden ${
         isCollapsed ? "w-[72px]" : "w-64"
       } ${menuOpen ? "translate-x-0" : "-translate-x-full"}`}
     >
+      {/* BACKGROUND ATMOSPHERE */}
+      <div className="sidebar-atmosphere pointer-events-none absolute inset-0 z-0">
+        <img
+          src={sidebarGoldenSunrise}
+          alt=""
+          className="absolute inset-0 h-full w-full object-cover opacity-90"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-sidebar/40 via-sidebar/70 to-sidebar/95" />
+      </div>
+
       {/* 1. TOP MAC-OS TRAFFIC LIGHTS & MOBILE CLOSE */}
-      <div className="flex h-11 items-center justify-between px-3.5 pt-2 border-b border-border/40">
-        <div className="flex items-center gap-1.5" title="Palm Grove RRMS Desktop Suite">
-          <span className="size-2.5 rounded-full bg-[#FF5F56] transition-opacity hover:opacity-80" />
-          <span className="size-2.5 rounded-full bg-[#FFBD2E] transition-opacity hover:opacity-80" />
-          <span className="size-2.5 rounded-full bg-[#27C93F] transition-opacity hover:opacity-80" />
-        </div>
+      <div className="relative z-10 flex h-11 items-center justify-center px-3.5 pt-2 border-b border-border/40">
         <div className="flex items-center gap-1">
+          {/* Desktop collapse button */}
+          <Button
+            variant="ghost"
+            size="icon"
+            className="hidden size-9 text-muted-foreground hover:text-foreground lg:flex"
+            onClick={onToggleCollapse}
+            title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
+          >
+            <PanelLeftClose className={`size-5 transition-transform ${isCollapsed ? "rotate-180" : ""}`} />
+          </Button>
+
           {/* Mobile close button */}
           <Button
             variant="ghost"
             size="icon"
-            className="size-7 text-muted-foreground hover:text-foreground lg:hidden"
+            className="size-9 text-muted-foreground hover:text-foreground lg:hidden"
             onClick={onCloseMenu}
           >
-            <X className="size-4" />
+            <X className="size-5" />
           </Button>
         </div>
       </div>
 
       {/* 2. WORKSPACE / RESORT PROPERTY HEADER */}
-      <div className="border-b border-border/70 p-3">
+      <div className="relative z-10 border-b border-border/70 p-3">
         {isCollapsed ? (
           <div className="flex flex-col items-center">
             <button
@@ -217,7 +233,7 @@ export function ResortSidebar({
       </div>
 
       {/* 3. SCROLLABLE NAVIGATION CONTENT */}
-      <div className="flex-1 overflow-y-auto px-2.5 py-3 space-y-4 scrollbar-thin">
+      <div className="relative z-10 flex-1 overflow-y-auto px-2.5 py-3 space-y-4 scrollbar-thin">
         {/* Main Nav Items */}
         <div className="space-y-1">
           {visibleMainItems.map((item) => {
@@ -493,7 +509,7 @@ export function ResortSidebar({
       </div>
 
       {/* 5. FOOTER UTILITIES & USER PROFILE */}
-      <div className="border-t border-border/70 p-2.5 bg-muted/15">
+      <div className="relative z-10 border-t border-border/70 p-2.5 bg-muted/15">
         {isCollapsed ? (
           <div className="flex flex-col items-center gap-2">
             <button
@@ -509,13 +525,6 @@ export function ResortSidebar({
               className="flex size-9 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
             >
               <Settings className="size-4" />
-            </button>
-            <button
-              onClick={onToggleCollapse}
-              title="Expand Sidebar"
-              className="flex size-9 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-            >
-              <PanelLeft className="size-4" />
             </button>
             <button
               onClick={onOpenPersonaModal}
@@ -545,16 +554,6 @@ export function ResortSidebar({
                   <Settings className="size-3.5" />
                 </button>
               </div>
-
-              {/* Collapse/Expand Sidebar toggle button */}
-              <button
-                onClick={onToggleCollapse}
-                title="Collapse Sidebar"
-                className="flex items-center gap-1 rounded-md px-1.5 py-1 text-[11px] text-muted-foreground hover:bg-muted hover:text-foreground transition-colors"
-              >
-                <PanelLeftClose className="size-3.5" />
-                <span className="text-[10px]">Collapse</span>
-              </button>
             </div>
 
             {/* Current user card with quick role switch */}
