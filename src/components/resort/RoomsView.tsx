@@ -15,6 +15,8 @@ import { Badge } from "@/components/ui/badge";
 import { Room, RoomStatus } from "./types";
 import { CasinoSlotNumber } from "./CasinoSlotNumber";
 import { useCasino } from "./CasinoControl";
+import { AddRoomModal } from "./AddRoomModal";
+import { UpdateRoomStatusModal } from "./UpdateRoomStatusModal";
 import villaPool from "@/assets/coastal-villa-pool.jpg";
 import resortDay from "@/assets/coastal-resort-day.jpg";
 
@@ -27,6 +29,8 @@ export function RoomsView({ rooms, onUpdateRoomStatus }: RoomsViewProps) {
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [statusFilter, setStatusFilter] = useState<string>("All");
   const [wingFilter, setWingFilter] = useState<string>("All");
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [selectedRoomForStatus, setSelectedRoomForStatus] = useState<Room | null>(null);
 
   const statuses = ["All", "Ready", "Occupied", "Housekeeping", "Maintenance"];
   const wings = [
@@ -75,8 +79,16 @@ export function RoomsView({ rooms, onUpdateRoomStatus }: RoomsViewProps) {
           </p>
         </div>
 
-        <div className="flex items-center gap-2 rounded-lg border border-border bg-card p-1">
+        <div className="flex items-center gap-4">
           <Button
+            onClick={() => setIsAddModalOpen(true)}
+            className="bg-foreground text-background hover:bg-foreground/90 font-medium tracking-wide h-9"
+          >
+            Add New Suite
+          </Button>
+
+          <div className="flex items-center gap-2 rounded-lg border border-border bg-card p-1">
+            <Button
             size="sm"
             variant={viewMode === "grid" ? "default" : "ghost"}
             onClick={() => setViewMode("grid")}
@@ -273,18 +285,16 @@ export function RoomsView({ rooms, onUpdateRoomStatus }: RoomsViewProps) {
                       </div>
                     </div>
 
-                    {/* Status Changer dropdown / quick button */}
+                    {/* Status Changer quick button */}
                     <div className="flex items-center gap-1">
-                      <select
-                        value={rm.status}
-                        onChange={(e) => onUpdateRoomStatus(rm.id, e.target.value as RoomStatus)}
-                        className="h-8 rounded-md border border-border bg-background px-2 text-xs text-foreground outline-none focus:border-[var(--champagne)]"
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setSelectedRoomForStatus(rm)}
+                        className="h-8 border-border px-3 text-[11px] font-medium"
                       >
-                        <option value="Ready">Ready</option>
-                        <option value="Occupied">Occupied</option>
-                        <option value="Housekeeping">Housekeeping</option>
-                        <option value="Maintenance">Maintenance</option>
-                      </select>
+                        Change Status
+                      </Button>
                     </div>
                   </div>
                 </div>
@@ -350,16 +360,14 @@ export function RoomsView({ rooms, onUpdateRoomStatus }: RoomsViewProps) {
                       </Badge>
                     </td>
                     <td className="px-5 py-4 text-right">
-                      <select
-                        value={rm.status}
-                        onChange={(e) => onUpdateRoomStatus(rm.id, e.target.value as RoomStatus)}
-                        className="h-8 rounded-md border border-border bg-background px-2 text-xs text-foreground outline-none focus:border-[var(--champagne)]"
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => setSelectedRoomForStatus(rm)}
+                        className="h-8 text-xs font-medium hover:bg-accent"
                       >
-                        <option value="Ready">Ready</option>
-                        <option value="Occupied">Occupied</option>
-                        <option value="Housekeeping">Housekeeping</option>
-                        <option value="Maintenance">Maintenance</option>
-                      </select>
+                        Update
+                      </Button>
                     </td>
                   </tr>
                 ))}
@@ -368,6 +376,25 @@ export function RoomsView({ rooms, onUpdateRoomStatus }: RoomsViewProps) {
           </div>
         </section>
       )}
+      
+      <AddRoomModal
+        open={isAddModalOpen}
+        onClose={() => setIsAddModalOpen(false)}
+        onSave={(newRoom) => {
+          // Typically this would dispatch to store, but for display:
+          console.log("Saving new room", newRoom);
+        }}
+      />
+      
+      <UpdateRoomStatusModal
+        open={!!selectedRoomForStatus}
+        onClose={() => setSelectedRoomForStatus(null)}
+        room={selectedRoomForStatus}
+        onSave={(id, newStatus, notes) => {
+          onUpdateRoomStatus(id, newStatus);
+          console.log("Notes attached:", notes);
+        }}
+      />
     </div>
   );
 }
